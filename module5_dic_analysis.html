@@ -1,0 +1,256 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/x-icon" href="images/logo.ico">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 5: DIC Analysis & Results — DIC Application User Manual</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="index.html"><img src="images/title.png" alt="InsituMicron DIC Application" class="brand-img"><span class="brand-divider"></span><span class="brand-manual">User Manual</span></a>
+  <nav class="header-nav">
+    <a href="index.html">Home</a>
+    <a href="license.html">Startup</a>
+    <div class="nav-dropdown">
+      <span class="nav-btn active">Modules</span>
+      <div class="dropdown-menu">
+        <a href="module1_acquisition.html"><span class="mod-num">1</span>Image Acquisition</a>
+        <a href="module2_calibration.html"><span class="mod-num">2</span>Calibration</a>
+        <a href="module3_focus_quality.html"><span class="mod-num">3</span>Focus Quality</a>
+        <a href="module4_pattern_validation.html"><span class="mod-num">4</span>Pattern Validation</a>
+        <a href="module5_dic_analysis.html" class="active"><span class="mod-num">5</span>DIC Analysis</a>
+      </div>
+    </div>
+    <a href="reference.html">Reference</a>
+  </nav></header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-label">On This Page</div>
+    <a href="#overview">Overview</a>
+    <a href="#configuration">5.1 DIC Configuration</a>
+    <a class="sub" href="#images-section">Images Section</a>
+    <a class="sub" href="#roi-selection">ROI Selection</a>
+    <a class="sub" href="#analysis-mode">Analysis Mode</a>
+    <a class="sub" href="#subset-size">Subset Size</a>
+    <a class="sub" href="#grid-step">Grid Step</a>
+    <a href="#run-analysis">5.2 Run Analysis</a>
+    <a href="#canvas">5.3 Right Panel — Canvas</a>
+    <a class="sub" href="#post-viz">Visualization Controls</a>
+    <a href="#results">5.4 Results &amp; Export</a>
+    <a class="sub" href="#header-bar">Header Bar</a>
+    <a class="sub" href="#field-selector">Field Selector</a>
+    <a class="sub" href="#graph-panel">Graph Panel</a>
+    <a class="sub" href="#export">Exporting Data</a>
+  </nav>
+
+  <main class="content">
+    <div class="page-title-block">
+      <div class="module-tag">Module 5</div>
+      <h1>DIC Analysis &amp; Results</h1>
+      <p class="lead">The core analysis module. Tracks the deformation of your specimen across the image sequence using full-field Digital Image Correlation. Computes displacement and strain fields for every tracked point in every frame. The Results section is integrated directly within this module.</p>
+    </div>
+
+    <div class="fig">
+      <img src="images/D1.png" alt="DIC Analysis main screen" onerror="this.parentElement.className='fig-placeholder';this.parentElement.innerHTML='<div class=ph-label>[Screenshot: DIC Analysis main screen — left control panel, right image canvas]</div>'">
+      <div class="fig-caption">Figure 5.1 — DIC Analysis module main screen</div>
+    </div>
+
+    <!-- 5.1 Configuration -->
+    <h2 id="configuration">5.1 &nbsp; Left Control Panel — DIC Configuration</h2>
+    <p>The left scrollable panel contains all settings needed to configure and run the DIC analysis. Work through the controls from top to bottom before clicking Run.</p>
+
+    <h3 id="images-section">Images Section</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Control</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>Load Image Sequence (blue button)</td><td>Opens a file browser for selecting the image sequence. Select all files in one operation (hold Shift or Ctrl). <strong>The first image in the selected set automatically becomes the reference frame.</strong> All subsequent images are treated as deformed frames.</td></tr>
+        <tr><td>Live Capture (purple button)</td><td>Opens an integrated camera capture panel, allowing you to build the image sequence in real-time from a connected FLIR or USB camera.</td></tr>
+        <tr><td>Image count status label</td><td>Displays one of: <em>"No images loaded"</em> (default), or <em>"X images loaded"</em> (green) confirming the number of frames ready for analysis.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="note">The reference frame is always the <strong>first image</strong> in the sequence. All displacement and strain values are computed relative to this reference. Ensure your first image shows the specimen in the <em>undeformed</em> state (zero-load condition).</div>
+
+    <h3 id="roi-selection">ROI (Region of Interest) Selection</h3>
+    <p>Define the area of the image that will be tracked. Restricting the ROI to the specimen surface (excluding fixtures, grips, and background) significantly reduces computation time and improves result quality.</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Control</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>Rectangle (radio button)</td><td>The ROI will be drawn as a rectangle. Suitable for most specimens.</td></tr>
+        <tr><td>Polygon (radio button)</td><td>The ROI will be drawn as a free-form polygon (multiple vertices). Use for irregularly shaped specimens or when the ROI must closely follow a curved edge.</td></tr>
+        <tr><td>Select ROI (button)</td><td>Activates drawing mode. Click on the right-panel canvas to define the ROI. For Rectangle: click-drag to draw. For Polygon: click each vertex in sequence, then close by clicking the starting point or pressing Enter.</td></tr>
+        <tr><td>Undo Pt (orange — Polygon mode only)</td><td>Removes the most recently placed polygon vertex. Click multiple times to remove multiple points.</td></tr>
+        <tr><td>Clear (button)</td><td>Removes the current ROI entirely. The canvas returns to showing the full image. This button is disabled until an ROI has been defined.</td></tr>
+        <tr><td>ROI info label</td><td>Displays the coordinates and pixel dimensions of the current ROI (e.g., <em>"ROI: (120, 80) — 640×480 px"</em>).</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3 id="analysis-mode">Analysis Mode</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Mode</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>Full-Field Grid (radio button)</td><td>Places a regular grid of tracking points (subsets) evenly spaced across the entire ROI. This produces displacement and strain field maps covering the whole specimen surface. This is the standard DIC mode for most applications.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3 id="subset-size">Subset (Facet) Size</h3>
+    <p>The subset is a small square image patch centered on each tracking point. The DIC algorithm searches for this patch in each deformed image to determine how much it has moved.</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Control</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>Subset Size slider (range: 10–150 px, default: 51)</td><td>Sets the side length of the tracking subset in pixels. <strong>Larger subsets</strong> are more stable and resistant to noise but capture coarser deformation gradients. <strong>Smaller subsets</strong> capture finer deformation detail but can fail in low-contrast or severely deformed regions.</td></tr>
+        <tr><td>Direct entry box</td><td>Type a specific subset size value. Press Enter or click away to apply. The slider updates to match.</td></tr>
+        <tr><td>Quick Presets: 21 / 31 / 51 / 75 (buttons)</td><td>Jump immediately to commonly used subset sizes. Equivalent to typing the value manually.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="tip">Use the subset size recommendation from the Pattern Validation module as your starting point. The general rule: subset size should be <strong>3–5× the mean speckle diameter</strong>. For a mean speckle of 8 px, try a subset size of 25–40 px.</div>
+
+    <h3 id="grid-step">Grid Step (Point Spacing)</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Control</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>Grid Step slider (range: 8–252 px, default: 90)</td><td>Sets the center-to-center spacing between adjacent tracking points in the full-field grid. <strong>Smaller step = more tracking points = higher spatial resolution but longer computation time.</strong> Larger step = fewer points = faster but coarser field maps.</td></tr>
+        <tr><td>Direct entry box</td><td>Type a specific grid step value. The slider updates to match.</td></tr>
+      </tbody>
+    </table></div>
+
+    <!-- 5.2 Run Analysis -->
+    <h2 id="run-analysis">5.2 &nbsp; Run Analysis Controls</h2>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Control</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>Run DIC Analysis (large green button)</td><td>Starts the full DIC correlation engine in a background thread. The right-panel canvas begins updating frame-by-frame as results are computed. This button is disabled once analysis begins.</td></tr>
+        <tr><td>Stop (red button — visible only during analysis)</td><td>Halts the running analysis after the current frame completes. Any frames analyzed up to that point are retained and available for visualization and export.</td></tr>
+        <tr><td>Analysis Progress bar</td><td>Fills from left to right as each frame is processed. Shows completion percentage.</td></tr>
+        <tr><td>"Frame X / Y" label</td><td>Shows the current frame being analyzed (e.g., <em>"Frame 45 / 120"</em>). Updates in real-time.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="warning">Do not close or navigate away from the DIC Analysis module while analysis is running. Doing so will terminate the analysis and the results will not be saved.</div>
+
+    <!-- 5.3 Canvas -->
+    <h2 id="canvas">5.3 &nbsp; Right Panel — Image Canvas</h2>
+    <p>The right panel displays your reference image in a zoomable canvas. After setting the ROI, the grid of tracking points becomes visible as an overlay.</p>
+
+    <div class="fig">
+      <img src="images/d2.png" alt="DIC canvas with grid overlay" onerror="this.parentElement.className='fig-placeholder';this.parentElement.innerHTML='<div class=ph-label>[Screenshot: Reference image with green subset grid overlay and white scale bar]</div>'">
+      <div class="fig-caption">Figure 5.2 — Reference image canvas showing subset grid and scale bar</div>
+    </div>
+
+    <p>Elements visible on the canvas before and during analysis:</p>
+    <ul>
+      <li><strong>Green grid overlay</strong> — dots or squares marking each tracking point position on the reference image. The spacing matches your Grid Step setting.</li>
+      <li><strong>White scale bar</strong> — a calibrated distance marker shown in the corner of the image. Only present if calibration has been completed.</li>
+      <li><strong>ROI boundary</strong> — a colored border showing the defined analysis region.</li>
+    </ul>
+
+    <p>During analysis, the canvas switches to the current deformed frame and overlays a color heatmap showing the selected strain or displacement field in real-time.</p>
+
+    <h3 id="post-viz">Post-Analysis Visualization Controls</h3>
+    <p>After analysis completes, a visualization toolbar appears below the canvas:</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Control</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>Strain Field dropdown</td><td>Select which measurement field to visualize: <code>Strain_X [%]</code>, <code>Strain_Y [%]</code>, <code>Shear_Strain_XY [%]</code>, <code>Major_Strain [%]</code>, <code>Minor_Strain [%]</code>, <code>Displacement_X [mm]</code>, <code>Displacement_Y [mm]</code>.</td></tr>
+        <tr><td>Colormap dropdown</td><td>Color scheme for the heatmap overlay. Options include: jet, viridis, plasma, hot, coolwarm, turbo, RdBu, and others. <em>Jet</em> is the default.</td></tr>
+        <tr><td>Opacity slider (0.0–1.0)</td><td>Controls how transparent the heatmap overlay is relative to the underlying image. Set to 1.0 for full overlay; 0.0 to see only the original image without any overlay.</td></tr>
+        <tr><td>◀ (Previous frame button)</td><td>Steps backward one frame in the result sequence. Shows the heatmap for that frame.</td></tr>
+        <tr><td>"Frame X / Y" result counter</td><td>Shows your current viewing position in the analyzed sequence (e.g., <em>"Frame 12 / 120"</em>).</td></tr>
+        <tr><td>▶ (Next frame button)</td><td>Steps forward one frame in the result sequence.</td></tr>
+      </tbody>
+    </table></div>
+
+    <!-- 5.4 Results -->
+    <h2 id="results">5.4 &nbsp; Results &amp; Data Export</h2>
+    <p>The Results view is accessed by clicking the <strong>Results</strong> button (or it appears automatically after analysis). It shows interactive graphs of the computed fields over time and provides export functionality.</p>
+
+    <div class="fig">
+      <img src="images/d3.png" alt="Results panel" onerror="this.parentElement.className='fig-placeholder';this.parentElement.innerHTML='<div class=ph-label>[Screenshot: Results module — left field selector buttons, right interactive graph]</div>'">
+      <div class="fig-caption">Figure 5.3 — DIC Analysis Results panel</div>
+    </div>
+
+    <h3 id="header-bar">Header Bar</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Element</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>DIC Analysis Results (title)</td><td>Confirms you are viewing the Results section of Module 5.</td></tr>
+        <tr><td>Info label (top right)</td><td>Summarizes the dataset: total analyzed frames, number of tracked points (e.g., <em>"120 frames | 350 tracked points"</em>).</td></tr>
+        <tr><td>Image Order (button)</td><td>Opens a dialog listing the reference and all deformed images in the order they were analyzed. Useful for traceability and confirming that the correct sequence was used.</td></tr>
+        <tr><td>Back to ViZ (red button)</td><td>Returns to the DIC Analysis canvas view so you can continue browsing the strain heatmap overlay frame-by-frame.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3 id="field-selector">Left Panel — Field Selector</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Button</th><th>Field Displayed</th><th>Units</th></tr></thead>
+      <tbody>
+        <tr><td>DISPLACEMENT_X</td><td>Horizontal displacement of each tracked point relative to reference frame</td><td>mm (or px if uncalibrated)</td></tr>
+        <tr><td>DISPLACEMENT_Y</td><td>Vertical displacement of each tracked point</td><td>mm (or px if uncalibrated)</td></tr>
+        <tr><td>STRAIN_XX</td><td>Normal strain in the horizontal (X) direction — Epsilon_XX</td><td>% (microstrain)</td></tr>
+        <tr><td>STRAIN_YY</td><td>Normal strain in the vertical (Y) direction — Epsilon_YY</td><td>% (microstrain)</td></tr>
+        <tr><td>SHEAR_XY</td><td>Shear strain component — Gamma_XY</td><td>%</td></tr>
+        <tr><td>STRAIN_MAJOR</td><td>Maximum (first) principal strain at each point</td><td>%</td></tr>
+        <tr><td>STRAIN_MINOR</td><td>Minimum (second) principal strain at each point</td><td>%</td></tr>
+        <tr><td>Export Full Data to CSV (green, bottom)</td><td>Exports the complete result dataset (all fields, all frames, all tracked points) to a CSV file.</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3 id="graph-panel">Right Panel — Interactive Graph</h3>
+    <p>The graph plots the currently selected field value on the Y axis, with frame number on the X axis. Each line represents one tracked point in the field of view.</p>
+    <ul>
+      <li><strong>Multiple lines</strong> — each corresponds to one spatial tracking point. For large datasets, up to <strong>500 points</strong> are sampled for display to keep the visualization responsive. The full dataset is always exported.</li>
+      <li><strong>Hover interaction</strong> — move the cursor over any line to see a tooltip with the exact value at that frame for that point.</li>
+      <li><strong>Zoom and pan</strong> — click and drag on the graph to zoom into a region. Right-click or use the toolbar to reset the zoom.</li>
+    </ul>
+
+    <div class="note">The graph sampling (max 500 display points) does not affect the exported CSV. The CSV always contains every tracked point from every analyzed frame. Use the CSV for rigorous data analysis in external tools (Excel, MATLAB, Python, etc.).</div>
+
+    <h3 id="export">Exporting Data</h3>
+    <div class="procedure">
+      <div class="proc-step"><p>Click <strong>Export Full Data to CSV</strong> (green button, bottom of the left panel).</p></div>
+      <div class="proc-step"><p>A Windows file save dialog opens. Choose a destination folder and enter a filename (e.g., <code>Test_01_DIC_Results.csv</code>).</p></div>
+      <div class="proc-step"><p>Click <strong>Save</strong>. The application writes the CSV file. A confirmation message confirms successful export.</p></div>
+    </div>
+    <p>The exported CSV file includes the following columns for each data row:</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Column</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>Point_ID</td><td>Unique integer identifier for each tracked subset point</td></tr>
+        <tr><td>Frame</td><td>Frame number (0 = reference, 1 = first deformed, etc.)</td></tr>
+        <tr><td>X_ref, Y_ref</td><td>Position of the tracking point in the reference image (pixels)</td></tr>
+        <tr><td>Disp_X, Disp_Y</td><td>Computed displacement in X and Y (mm or px)</td></tr>
+        <tr><td>Strain_XX, Strain_YY, Strain_XY</td><td>Normal and shear strain components (%)</td></tr>
+        <tr><td>Major_Strain, Minor_Strain</td><td>Principal strains (%)</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="page-nav">
+      <a href="module4_pattern_validation.html" class="prev">Pattern Validation</a>
+      <span class="page-label">Module 5 of 5</span>
+      <a href="reference.html" class="next">Quick Reference</a>
+    </div>
+  </main>
+</div>
+
+<footer class="site-footer">&copy; InsituMicron &mdash; DIC Application User Manual &mdash; Professional Edition</footer>
+<script>
+(function(){
+  var sections = document.querySelectorAll('[id]');
+  var navLinks = document.querySelectorAll('.sidebar a');
+  if (!navLinks.length) return;
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if (entry.isIntersecting) {
+        var id = entry.target.getAttribute('id');
+        navLinks.forEach(function(a){ a.classList.remove('active'); });
+        var active = document.querySelector('.sidebar a[href="#' + id + '"]');
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-15% 0px -70% 0px', threshold: 0 });
+  sections.forEach(function(s){ io.observe(s); });
+})();
+</script></body>
+</html>

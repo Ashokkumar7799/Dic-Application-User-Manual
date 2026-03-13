@@ -1,0 +1,232 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/x-icon" href="images/logo.ico">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 2: Calibration — DIC Application User Manual</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="index.html"><img src="images/title.png" alt="InsituMicron DIC Application" class="brand-img"><span class="brand-divider"></span><span class="brand-manual">User Manual</span></a>
+  <nav class="header-nav">
+    <a href="index.html">Home</a>
+    <a href="license.html">Startup</a>
+    <div class="nav-dropdown">
+      <span class="nav-btn active">Modules</span>
+      <div class="dropdown-menu">
+        <a href="module1_acquisition.html"><span class="mod-num">1</span>Image Acquisition</a>
+        <a href="module2_calibration.html" class="active"><span class="mod-num">2</span>Calibration</a>
+        <a href="module3_focus_quality.html"><span class="mod-num">3</span>Focus Quality</a>
+        <a href="module4_pattern_validation.html"><span class="mod-num">4</span>Pattern Validation</a>
+        <a href="module5_dic_analysis.html"><span class="mod-num">5</span>DIC Analysis</a>
+      </div>
+    </div>
+    <a href="reference.html">Reference</a>
+  </nav></header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-label">On This Page</div>
+    <a href="#overview">Overview</a>
+    <a href="#method-selection">2.1 Method Selection</a>
+    <a href="#auto-grid">2.2 Auto Grid / Full Calibration</a>
+    <a class="sub" href="#step1-images">Step 1: Capture Images</a>
+    <a class="sub" href="#step2-pattern">Step 2: Select Pattern</a>
+    <a class="sub" href="#step3-execute">Step 3: Execute</a>
+    <a href="#import-file">2.3 Import Calibration File</a>
+    <a href="#manual-scale">2.4 Manual Scale</a>
+    <a class="sub" href="#manual-controls">Left Panel</a>
+    <a class="sub" href="#manual-canvas">Zoomable Canvas</a>
+  </nav>
+
+  <main class="content">
+    <div class="page-title-block">
+      <div class="module-tag">Module 2</div>
+      <h1>Calibration</h1>
+      <p class="lead">Converts pixel-based measurements in your images into real physical units (millimeters). Calibration must be completed before DIC displacement and strain results have any physical meaning. Three methods are available — choose based on what equipment you have available.</p>
+    </div>
+
+    <!-- 2.1 Method Selection -->
+    <h2 id="method-selection">2.1 &nbsp; Method Selection Screen</h2>
+    <p>When you enter the Calibration module, you see a screen with three method buttons and a reset control at the bottom. Only one method needs to be applied per session.</p>
+
+    <div class="fig">
+      <img src="images/c1.png" alt="Calibration method selection" onerror="this.parentElement.className='fig-placeholder';this.parentElement.innerHTML='<div class=ph-label>[Screenshot: Method selection — three buttons]</div>'">
+      <div class="fig-caption">Figure 2.1 — Calibration method selection screen</div>
+    </div>
+
+    <div class="option-grid">
+      <div class="option-card">
+        <div class="oc-num">Method A</div>
+        <div class="oc-title">Auto Grid / Full</div>
+        <div class="oc-desc">Recommended when you have a physical calibration target (Square Grid, Chessboard, or Dot Pattern). Performs a full multi-image optical calibration that also computes lens distortion parameters.</div>
+      </div>
+      <div class="option-card">
+        <div class="oc-num">Method B</div>
+        <div class="oc-title">Import File</div>
+        <div class="oc-desc">Use when you already have a saved calibration file from a previous session on this same setup. Supported formats: <code>.json</code>, <code>.yaml</code>, <code>.npz</code>.</div>
+      </div>
+      <div class="option-card">
+        <div class="oc-num">Method C</div>
+        <div class="oc-title">Manual Scale</div>
+        <div class="oc-desc">The quickest option. Use when any object with a known physical dimension is visible in one of your images (e.g., a precision ruler, a reference scale bar). No special target is required.</div>
+      </div>
+    </div>
+
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Button</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>Auto Grid / Full (button)</td><td>Opens the full two-panel calibration screen. See Section 2.2.</td></tr>
+        <tr><td>Import File (button)</td><td>Opens a file browser to select a previously saved calibration file. See Section 2.3.</td></tr>
+        <tr><td>Manual Scale (button)</td><td>Opens the two-panel manual calibration screen. See Section 2.4.</td></tr>
+        <tr><td>Reset Calibration (button, bottom)</td><td>Clears any calibration data currently stored in the session. Use this if you need to re-calibrate from scratch without closing the application.</td></tr>
+      </tbody>
+    </table></div>
+
+    <!-- 2.2 Auto Grid -->
+    <h2 id="auto-grid">2.2 &nbsp; Sub-Module: Auto Grid / Full Calibration</h2>
+    <p>This method uses multiple images of a physical calibration target to calculate the mm-per-pixel scale factor and, optionally, lens distortion coefficients. This is the most accurate calibration method.</p>
+
+    <div class="fig">
+      <img src="images/c2.png" alt="Full calibration screen" onerror="this.parentElement.className='fig-placeholder';this.parentElement.innerHTML='<div class=ph-label>[Screenshot: Full calibration — left panel with Steps 1-3, right thumbnail preview]</div>'">
+      <div class="fig-caption">Figure 2.2 — Auto Grid calibration — two-panel layout showing Steps 1, 2, and 3</div>
+    </div>
+
+    <h3 id="step1-images">Step 1 — Capture Calibration Images</h3>
+    <p>Calibration requires multiple images of your target captured from varied angles and positions. A minimum of 10 images is required; 15–20 gives best results.</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Control</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>Import (button)</td><td>Opens a file browser. Select 10–20 pre-captured photos of your calibration target at different angles. Multi-select is supported.</td></tr>
+        <tr><td>Camera (button)</td><td>Opens an embedded camera capture dialog. Use this to capture calibration images directly from a connected FLIR or USB camera without leaving the module.</td></tr>
+        <tr><td>"Images loaded: X" label</td><td>Tracks the running count of loaded images. Text turns green and a checkmark appears when you reach the 10-image minimum required to enable the Start Calibration button.</td></tr>
+        <tr><td>Thumbnail strip (right panel)</td><td>Small preview thumbnails automatically appear as each image is added. Click any thumbnail to see a full-size preview. Good calibration images should show the target clearly with the pattern fully in frame.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="warning">You need at least 10 images to proceed. The Start Calibration button will remain disabled until this minimum is reached.</div>
+
+    <h3 id="step2-pattern">Step 2 — Select Calibration Pattern</h3>
+    <p>Tell the software what type of calibration target you are using and provide its physical dimensions:</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Pattern Type</th><th>Required Input Fields</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>Square Grid (default)</td><td>Physical Square Size (mm)</td><td>Used for the InsituMicron square dot-grid targets. Enter the center-to-center spacing of the grid squares in millimeters.</td></tr>
+        <tr><td>Chessboard Pattern</td><td>Inner Corners X, Inner Corners Y, Square Size (mm)</td><td>Standard OpenCV chessboard. Count inner corners only (not the outer border squares). Inner Corners X × Inner Corners Y gives the expected corner count per image.</td></tr>
+        <tr><td>Dot Pattern (asymmetric)</td><td>Dot Columns, Dot Rows, Dot Spacing (mm), Dot Diameter (mm)</td><td>For asymmetric circle-grid targets. Spacing refers to the center-to-center dot pitch.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3 id="step3-execute">Step 3 — Execute Calibration</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Control</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>Start Calibration (green button)</td><td>Runs the full calibration algorithm across all loaded images. This may take 5–30 seconds depending on image resolution and count. The button is disabled if fewer than 10 images are loaded.</td></tr>
+        <tr><td>Calibration Log (black text area)</td><td>Displays real-time output from the calibration engine in green text. Shows per-image success or failure, reprojection error (RMS), and a final summary. Aim for an RMS reprojection error below 1.0 pixel.</td></tr>
+        <tr><td>Save Calibration (button — visible after success)</td><td>Appears after a successful calibration. Click to save the calibration parameters to a file (<code>.json</code> or <code>.npz</code>) you can reload in future sessions using Method B.</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="fig">
+      <img src="images/c3.png" alt="Calibration log" onerror="this.parentElement.className='fig-placeholder';this.parentElement.innerHTML='<div class=ph-label>[Screenshot: Calibration log showing CALIBRATION SUCCESSFUL with RMS error value]</div>'">
+      <div class="fig-caption">Figure 2.3 — Calibration log after a successful run</div>
+    </div>
+    <div class="tip">If the calibration reports a high RMS error (&gt;1.5 px), check that your target images are sharp, the pattern is fully visible in each frame, and the correct pattern dimensions are entered. Remove any images where the target detection clearly failed.</div>
+    <div class="note">The Back button in the top-left of the screen returns to the method selection screen at any time without losing already-loaded images.</div>
+
+    <!-- 2.3 Import File -->
+    <h2 id="import-file">2.3 &nbsp; Sub-Module: Import Calibration File</h2>
+    <p>If you have performed calibration previously on the same optical setup and saved the resulting calibration file, you can load it directly without repeating the entire procedure.</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Action</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>Clicking Import File</td><td>Opens a Windows file browser filtered for calibration file types: <code>.json</code>, <code>.yaml</code>, and <code>.npz</code>.</td></tr>
+        <tr><td>After selecting a file</td><td>The file is parsed and the calibration parameters are loaded into the current session. A success message confirms the import. The module is automatically marked as complete.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="warning">Imported calibration files are optical-setup-specific. Only use a file that was calibrated with the same camera, lens, magnification, and working distance. Using a mismatched file will produce incorrect physical measurements.</div>
+
+    <!-- 2.4 Manual Scale -->
+    <h2 id="manual-scale">2.4 &nbsp; Sub-Module: Manual Scale</h2>
+    <p>The Manual Scale method derives the mm-per-pixel ratio from a single reference image containing any object of known physical size. This is the fastest calibration approach and requires only a ruler or scale bar visible in the image.</p>
+
+    <div class="fig">
+      <img src="images/c4.png" alt="Manual Scale screen" onerror="this.parentElement.className='fig-placeholder';this.parentElement.innerHTML='<div class=ph-label>[Screenshot: Manual Scale — left controls panel, right zoomable canvas]</div>'">
+      <div class="fig-caption">Figure 2.4 — Manual Scale calibration screen</div>
+    </div>
+
+    <h3 id="manual-controls">Left Panel — Steps</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Control</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>Step 1 label</td><td>Instructs you to load or capture a reference image.</td></tr>
+        <tr><td>Import (button)</td><td>Opens a file browser to load a single reference image (your specimen with a ruler or scale bar visible).</td></tr>
+        <tr><td>Camera (button)</td><td>Opens a camera capture dialog to take the reference image live.</td></tr>
+        <tr><td>Step 2 label</td><td>Instructs you to place exactly two points on the canvas spanning a known distance.</td></tr>
+        <tr><td>Undo Pt (orange button)</td><td>Removes the most recently placed calibration point from the canvas. Click twice to clear both points and start placement over.</td></tr>
+        <tr><td>Measurement in Pixels (auto-filled)</td><td>Once both points are placed, this field auto-calculates the pixel distance between them. <strong>Do not edit this value manually.</strong></td></tr>
+        <tr><td>Physical Dimension (mm) input field</td><td>Enter the actual real-world distance between the two points you placed (in millimeters). Example: if you placed points across a 5 mm gap on a scale bar, enter <code>5.0</code>.</td></tr>
+        <tr><td>Apply Scale (green button)</td><td>Computes the mm/pixel ratio and saves it to the session. A confirmation appears: <em>"✓ Scale Applied: 0.01234 mm/px"</em>. The calibration is now complete.</td></tr>
+        <tr><td>Save XML (blue button — enabled after Apply)</td><td>Saves the calibration result to an XML file that can be imported in future sessions. Store this file with your test data for traceability.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3 id="manual-canvas">Right Panel — Zoomable Canvas</h3>
+    <p>The right panel displays your reference image in a fully interactive canvas:</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Interaction</th><th>Effect</th></tr></thead>
+      <tbody>
+        <tr><td>Scroll wheel (up/down)</td><td>Zoom in / Zoom out around the cursor position</td></tr>
+        <tr><td>Left-click and drag</td><td>Pan the image</td></tr>
+        <tr><td>Left-click (single) while in point-placement mode</td><td>Places a calibration point (P1 on first click, P2 on second). Up to 2 points can be placed.</td></tr>
+        <tr><td>Green crosshair marker</td><td>Appears at each placed point's location</td></tr>
+        <tr><td>Yellow dashed line</td><td>Connects P1 and P2, visually confirming the span you are measuring</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="fig">
+      <img src="images/c5.png" alt="Canvas measurement points" onerror="this.parentElement.className='fig-placeholder';this.parentElement.innerHTML='<div class=ph-label>[Screenshot: Canvas showing P1 and P2 crosshairs connected by a yellow dashed line]</div>'">
+      <div class="fig-caption">Figure 2.5 — Canvas after placing both measurement points. Yellow line spans the known reference distance.</div>
+    </div>
+
+    <p>The procedure for Manual Scale calibration:</p>
+    <div class="procedure">
+      <div class="proc-step"><p>Load the reference image using <strong>Import</strong> or <strong>Camera</strong>.</p></div>
+      <div class="proc-step"><p>Zoom in on the scale bar or reference object using the scroll wheel.</p></div>
+      <div class="proc-step"><p>Click to place <strong>Point 1 (P1)</strong> at one end of a known-length feature.</p></div>
+      <div class="proc-step"><p>Click to place <strong>Point 2 (P2)</strong> at the other end. The yellow line and pixel distance appear automatically.</p></div>
+      <div class="proc-step"><p>Enter the real-world distance in the <strong>Physical Dimension (mm)</strong> field.</p></div>
+      <div class="proc-step"><p>Click <strong>Apply Scale</strong>. The mm/px ratio is computed and stored.</p></div>
+      <div class="proc-step"><p>Optionally, click <strong>Save XML</strong> to save for future use.</p></div>
+    </div>
+
+    <div class="page-nav">
+      <a href="module1_acquisition.html" class="prev">Image Acquisition</a>
+      <span class="page-label">Module 2 of 5</span>
+      <a href="module3_focus_quality.html" class="next">Focus Quality</a>
+    </div>
+  </main>
+</div>
+
+<footer class="site-footer">&copy; InsituMicron &mdash; DIC Application User Manual &mdash; Professional Edition</footer>
+<script>
+(function(){
+  var sections = document.querySelectorAll('[id]');
+  var navLinks = document.querySelectorAll('.sidebar a');
+  if (!navLinks.length) return;
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if (entry.isIntersecting) {
+        var id = entry.target.getAttribute('id');
+        navLinks.forEach(function(a){ a.classList.remove('active'); });
+        var active = document.querySelector('.sidebar a[href="#' + id + '"]');
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-15% 0px -70% 0px', threshold: 0 });
+  sections.forEach(function(s){ io.observe(s); });
+})();
+</script></body>
+</html>

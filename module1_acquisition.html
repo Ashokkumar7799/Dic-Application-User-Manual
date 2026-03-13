@@ -1,0 +1,239 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/x-icon" href="images/logo.ico">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 1: Image Acquisition — DIC Application User Manual</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="index.html"><img src="images/title.png" alt="InsituMicron DIC Application" class="brand-img"><span class="brand-divider"></span><span class="brand-manual">User Manual</span></a>
+  <nav class="header-nav">
+    <a href="index.html">Home</a>
+    <a href="license.html">Startup</a>
+    <div class="nav-dropdown">
+      <span class="nav-btn active">Modules</span>
+      <div class="dropdown-menu">
+        <a href="module1_acquisition.html" class="active"><span class="mod-num">1</span>Image Acquisition</a>
+        <a href="module2_calibration.html"><span class="mod-num">2</span>Calibration</a>
+        <a href="module3_focus_quality.html"><span class="mod-num">3</span>Focus Quality</a>
+        <a href="module4_pattern_validation.html"><span class="mod-num">4</span>Pattern Validation</a>
+        <a href="module5_dic_analysis.html"><span class="mod-num">5</span>DIC Analysis</a>
+      </div>
+    </div>
+    <a href="reference.html">Reference</a>
+  </nav></header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-label">On This Page</div>
+    <a href="#overview">Overview</a>
+    <a href="#source-selection">1.1 Source Selection</a>
+    <a href="#live-camera">1.2 Live Camera Panel</a>
+    <a class="sub" href="#header-row">Header Row</a>
+    <a class="sub" href="#stream-controls">Stream Controls</a>
+    <a class="sub" href="#capture-mode">Capture Mode</a>
+    <a class="sub" href="#save-rate">Save Rate &amp; Output Folder</a>
+    <a class="sub" href="#camera-params">Camera Parameters</a>
+    <a href="#import-device">1.3 Import From Device</a>
+    <a href="#preview-panel">1.4 Preview Panel</a>
+    <a class="sub" href="#frame-management">Frame Management</a>
+    <a class="sub" href="#image-preview">Image Preview</a>
+  </nav>
+
+  <main class="content">
+    <div class="page-title-block">
+      <div class="module-tag">Module 1</div>
+      <h1>Image Acquisition</h1>
+      <p class="lead">Load or capture the images that will be analyzed by DIC. This is the first module in the analysis workflow. Images can be imported from disk or captured directly from a connected FLIR or USB camera.</p>
+    </div>
+
+    <div class="fig">
+      <img src="images/a1.png" alt="Acquisition source selection" onerror="this.parentElement.className='fig-placeholder';this.parentElement.innerHTML='<div class=ph-label>[Screenshot: Acquisition source selection screen — two large buttons]</div>'">
+      <div class="fig-caption">Figure 1.1 — Image Acquisition source selection screen</div>
+    </div>
+
+    <!-- 1.1 Source Selection -->
+    <h2 id="source-selection">1.1 &nbsp; Source Selection Screen</h2>
+    <p>When you enter the Image Acquisition module, you see two large buttons side by side. Choose the method appropriate to your setup:</p>
+
+    <div class="option-grid">
+      <div class="option-card">
+        <div class="oc-num">Option A</div>
+        <div class="oc-title">IMPORT FROM DEVICE</div>
+        <div class="oc-desc">Opens the Windows file browser so you can select images already saved on your computer. Supports <code>.jpg</code>, <code>.png</code>, <code>.tif</code>, <code>.bmp</code> and other standard image formats. Select multiple files at once.</div>
+      </div>
+      <div class="option-card">
+        <div class="oc-num">Option B</div>
+        <div class="oc-title">LIVE CAMERA</div>
+        <div class="oc-desc">Opens the built-in camera acquisition panel, supporting FLIR hardware cameras (via PySpin) and standard USB/webcam sources (via OpenCV). Captures images directly for immediate use.</div>
+      </div>
+    </div>
+
+    <div class="note">After loading or capturing images, a preview panel will appear. You must click <strong>Execute Module</strong> in the main sidebar to confirm the images and move to the next step in the workflow.</div>
+
+    <!-- 1.2 Live Camera -->
+    <h2 id="live-camera">1.2 &nbsp; Live Camera Panel</h2>
+    <p>Clicking <strong>LIVE CAMERA</strong> replaces the source selection screen with the full embedded camera acquisition panel. The panel is divided into a <strong>left control column</strong> (scrollable) and a <strong>right camera feed area</strong>.</p>
+
+    <div class="fig">
+      <img src="images/a3.png" alt="Live camera panel" onerror="this.parentElement.className='fig-placeholder';this.parentElement.innerHTML='<div class=ph-label>[Screenshot: FLIR camera panel — left controls, right live feed]</div>'">
+      <div class="fig-caption">Figure 1.2 — Live Camera panel layout</div>
+    </div>
+
+    <h3 id="header-row">Header Row</h3>
+    <p>At the top of the left control column:</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Control</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>Live Camera (label)</td><td>Confirms you are in camera capture mode.</td></tr>
+        <tr><td>Save ✔ (green button)</td><td>Closes the camera panel, saves all captured images to the session, and automatically triggers module execution. This is how you finish a camera capture session.</td></tr>
+        <tr><td>Back (red button)</td><td>Cancels the camera session entirely and returns to the source selection screen. No images are saved.</td></tr>
+        <tr><td>Camera: dropdown</td><td>Select the camera source before starting the stream. Options: <code>FLIR Camera</code> (hardware FLIR via USB3/GigE) or <code>USB/Webcams</code> (any standard webcam recognized by OpenCV).</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3 id="stream-controls">Stream Controls</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Button</th><th>State</th><th>Action</th></tr></thead>
+      <tbody>
+        <tr><td>Start Stream</td><td>Enabled when camera is selected</td><td>Initializes and opens the selected camera. The live feed appears in the right panel. The Camera dropdown becomes locked once streaming starts.</td></tr>
+        <tr><td>Stop Stream (red)</td><td>Enabled only while streaming</td><td>Disconnects the camera and clears the live feed. Any capture mode in progress (continuous) is also stopped. The dropdown becomes selectable again.</td></tr>
+        <tr><td>Status badge (bottom of left panel)</td><td>Always visible</td><td>Shows the current state in color: grey = <em>Ready</em>, orange = <em>Starting…</em>, green = <em>● LIVE | FPS: 30.00</em> or <em>Camera Active</em>, red = <em>Error</em>.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3 id="capture-mode">Capture Mode</h3>
+    <p>After the stream is active, choose how images are recorded:</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Mode</th><th>Button(s)</th><th>How It Works</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Manual (Single capture)</strong> — default</td><td>Capture (purple)</td><td>Each click of the Capture button saves one frame from the current live feed. Use for deliberate, sequenced captures (e.g., loading steps with pauses between them).</td></tr>
+        <tr><td><strong>Continuous (Auto)</strong></td><td>Start Capture (green), Stop Capture (red), Pause Capture (orange)</td><td>Saves frames automatically at the rate defined by the Save Rate slider. <strong>Start Capture</strong> begins recording; <strong>Pause Capture</strong> temporarily halts saving without stopping the stream; <strong>Resume Capture</strong> (same button, toggled) restarts; <strong>Stop Capture</strong> ends the session.</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="fig">
+      <img src="images/a4.png" alt="Continuous capture" onerror="this.parentElement.className='fig-placeholder';this.parentElement.innerHTML='<div class=ph-label>[Screenshot: Continuous capture mode — Start/Stop/Pause buttons active, image counter visible]</div>'">
+      <div class="fig-caption">Figure 1.3 — Continuous capture mode with image counter</div>
+    </div>
+
+    <p>The <strong>Images counter</strong> at the bottom of the Capture Mode section shows the running total: <em>"Images: N | Queue: N"</em> — the left number is saved frames; the right is frames pending disk-write.</p>
+
+    <h3 id="save-rate">Save Rate &amp; Output Folder</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Control</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>Save Rate label (e.g., "15 FPS")</td><td>Displays the currently set capture rate for continuous mode.</td></tr>
+        <tr><td>FPS Slider (range: 1–15 FPS)</td><td>Sets how many images per second are written to disk during continuous capture. <strong>1 FPS</strong> saves one image every second; <strong>15 FPS</strong> saves fifteen per second. Higher rates produce larger datasets. Match this to the speed of your mechanical test.</td></tr>
+        <tr><td>Output Folder path label</td><td>Displays the current save directory. Default: <code>~/AcquisitionData/[session_timestamp]/</code>. A new session subfolder is created automatically each time you start capturing.</td></tr>
+        <tr><td>Change Folder… (button)</td><td>Opens a Windows folder browser to select a different root save location. Any existing in-progress session is closed and reset when the folder is changed.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3 id="camera-params">Camera Parameters (Advanced)</h3>
+    <p>These controls appear at the bottom of the left panel and are <strong>disabled until the camera stream is active</strong>. Once the camera connects and reports its capability limits, the sliders become interactive.</p>
+
+    <div class="fig">
+      <img src="images/a5.png" alt="Camera parameters" onerror="this.parentElement.className='fig-placeholder';this.parentElement.innerHTML='<div class=ph-label>[Screenshot: Camera parameters — Gain, Exposure, Black Level, Gamma sliders]</div>'">
+      <div class="fig-caption">Figure 1.4 — Camera Parameters section (enabled after streaming starts)</div>
+    </div>
+
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Parameter</th><th>Control</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>Gain (dB)</td><td>Slider + <strong>Auto</strong> checkbox</td><td>Amplifies the camera sensor signal. Higher gain increases image brightness but also increases noise. Tick <strong>Auto</strong> to let the camera's automatic gain control (AGC) manage this dynamically. For DIC, fixed gain is generally preferred to ensure consistent image intensity.</td></tr>
+        <tr><td>Exposure (µs)</td><td>Slider + <strong>Auto</strong> checkbox</td><td>Controls how long the sensor collects light per frame. Longer exposure = brighter image but increased motion blur risk. For moving specimens, keep exposure short. Tick <strong>Auto</strong> for automatic exposure control (AEC).</td></tr>
+        <tr><td>Black Level</td><td>Slider only</td><td>Adjusts the baseline brightness offset applied to the raw sensor signal. This rarely needs adjustment from its default. Only modify if images appear to have a non-zero background intensity floor.</td></tr>
+        <tr><td>Gamma</td><td>Slider only</td><td>Applies a tone-curve correction. At the default value (1.0), no correction is applied. For DIC image correlation, it is generally recommended to leave gamma at its default to avoid non-linear intensity distortions.</td></tr>
+      </tbody>
+    </table></div>
+
+    <p>The numeric readout to the right of each slider shows the current value in real camera units (dB, µs, or dimensionless). This value is updated live as you drag the slider.</p>
+    <div class="tip">For DIC, consistent and repeatable lighting is more important than brightness. Set Gain and Exposure to fixed values that produce well-exposed (not saturated) images, and disable Auto mode for both.</div>
+
+    <!-- 1.3 Import -->
+    <h2 id="import-device">1.3 &nbsp; Import From Device</h2>
+    <p>Clicking <strong>IMPORT FROM DEVICE</strong> opens a Windows file selection dialog. Select one or more image files (hold Ctrl or Shift for multi-select) and click Open. The dialog closes and a progress screen appears:</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>UI Element</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td>Importing Images… (title)</td><td>Confirms the import is in progress.</td></tr>
+        <tr><td>Progress Bar (green fill)</td><td>Advances from 0% to 100% as each image is loaded into memory.</td></tr>
+        <tr><td>"Loading X / Y images…" label</td><td>Shows the numerical progress count (e.g., "Loading 23 / 150 images…").</td></tr>
+        <tr><td>Current filename (small text)</td><td>Shows the name of the file currently being processed.</td></tr>
+        <tr><td>Cancel (button)</td><td>Aborts the import. Any already-loaded images are discarded and the source selection screen is shown again.</td></tr>
+      </tbody>
+    </table></div>
+
+    <!-- 1.4 Preview Panel -->
+    <h2 id="preview-panel">1.4 &nbsp; Preview Panel (After Loading)</h2>
+    <p>When loading is complete — whether by import or camera — the screen switches to a two-panel preview layout. This layout is shown when more than 10 images are loaded.</p>
+
+    <div class="fig">
+      <img src="images/a2.png" alt="Preview panel" onerror="this.parentElement.className='fig-placeholder';this.parentElement.innerHTML='<div class=ph-label>[Screenshot: Two-panel preview — left frame management, right image preview]</div>'">
+      <div class="fig-caption">Figure 1.5 — Image Acquisition preview panel (two-panel layout for large datasets)</div>
+    </div>
+
+    <h3 id="frame-management">Left Panel — Frame Management</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Control</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>Frame Management (section header)</td><td>Groups the controls for selecting which frames will be sent to analysis.</td></tr>
+        <tr><td>Skip Frames slider</td><td>Sets the decimation factor N. The analysis will process every Nth frame only. <strong>Skip = 0 means analyze all frames.</strong> Example: Skip = 2 analyzes frames 1, 3, 5, 7… halving the dataset. Useful for high-speed camera data where not every frame is needed.</td></tr>
+        <tr><td>– button</td><td>Decrements the skip value by 1.</td></tr>
+        <tr><td>Number input box</td><td>Type a skip value directly, then press Enter or click elsewhere.</td></tr>
+        <tr><td>+ button</td><td>Increments the skip value by 1.</td></tr>
+        <tr><td>Skip info label (green text)</td><td>Dynamically updates to confirm the effect, e.g., <em>"Skip: 2 (Analyze 60 of 120 frames)"</em>.</td></tr>
+        <tr><td>Frames for Analysis (count)</td><td>Shows the total number of frames that will be passed to the DIC engine after applying the skip setting.</td></tr>
+        <tr><td>Images to Analyze (scrollable file list)</td><td>A scrollable list of the filenames of all frames selected for analysis. Reflects the skip setting — only the files that will actually be analyzed are shown.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3 id="image-preview">Right Panel — Image Preview</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Control</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>Preview area</td><td>Displays the currently selected image at a scaled resolution. Use the navigation buttons below to browse the sequence.</td></tr>
+        <tr><td>◀ Previous button</td><td>Navigates to the previous image in the loaded sequence. Disabled when you are on the first image.</td></tr>
+        <tr><td>"Image X / Y" counter</td><td>Shows your current viewing position within the full loaded stack (e.g., "Image 12 / 150"). Note: this reflects your position in the raw stack, not the skip-filtered list.</td></tr>
+        <tr><td>Next ▶ button</td><td>Navigates to the next image. Disabled on the last image.</td></tr>
+        <tr><td>Load new data (button)</td><td>Discards all currently loaded images and re-opens the file browser (or source selection) so you can load a different set. The module state resets.</td></tr>
+        <tr><td>Clear All (button)</td><td>Removes all loaded images from memory and returns to the source selection screen (showing the two large Import / Live Camera buttons).</td></tr>
+        <tr><td>✓ Images Ready! (green banner)</td><td>Shown once images are successfully loaded. This confirms the module has valid input data and is ready. Click <strong>Execute Module</strong> from the sidebar to save and proceed.</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="tip">Use the Skip Frames control for high-speed video data. Reducing the frame count speeds up subsequent analysis steps significantly without reducing the spatial quality of the results.</div>
+
+    <div class="page-nav">
+      <a href="license.html" class="prev">License &amp; Startup</a>
+      <span class="page-label">Module 1 of 5</span>
+      <a href="module2_calibration.html" class="next">Calibration</a>
+    </div>
+  </main>
+</div>
+
+<footer class="site-footer">&copy; InsituMicron &mdash; DIC Application User Manual &mdash; Professional Edition</footer>
+<script>
+(function(){
+  var sections = document.querySelectorAll('[id]');
+  var navLinks = document.querySelectorAll('.sidebar a');
+  if (!navLinks.length) return;
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if (entry.isIntersecting) {
+        var id = entry.target.getAttribute('id');
+        navLinks.forEach(function(a){ a.classList.remove('active'); });
+        var active = document.querySelector('.sidebar a[href="#' + id + '"]');
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-15% 0px -70% 0px', threshold: 0 });
+  sections.forEach(function(s){ io.observe(s); });
+})();
+</script></body>
+</html>

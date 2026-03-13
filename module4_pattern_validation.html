@@ -1,0 +1,181 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/x-icon" href="images/logo.ico">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 4: Pattern Validation — DIC Application User Manual</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="index.html"><img src="images/title.png" alt="InsituMicron DIC Application" class="brand-img"><span class="brand-divider"></span><span class="brand-manual">User Manual</span></a>
+  <nav class="header-nav">
+    <a href="index.html">Home</a>
+    <a href="license.html">Startup</a>
+    <div class="nav-dropdown">
+      <span class="nav-btn active">Modules</span>
+      <div class="dropdown-menu">
+        <a href="module1_acquisition.html"><span class="mod-num">1</span>Image Acquisition</a>
+        <a href="module2_calibration.html"><span class="mod-num">2</span>Calibration</a>
+        <a href="module3_focus_quality.html"><span class="mod-num">3</span>Focus Quality</a>
+        <a href="module4_pattern_validation.html" class="active"><span class="mod-num">4</span>Pattern Validation</a>
+        <a href="module5_dic_analysis.html"><span class="mod-num">5</span>DIC Analysis</a>
+      </div>
+    </div>
+    <a href="reference.html">Reference</a>
+  </nav></header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-label">On This Page</div>
+    <a href="#overview">Overview</a>
+    <a href="#mode-toggle">4.1 Mode Toggle Bar</a>
+    <a href="#speckle-analyzer">4.2 Speckle Analyzer</a>
+    <a class="sub" href="#speckle-controls">Left Sidebar Controls</a>
+    <a class="sub" href="#speckle-results">Analysis Results</a>
+    <a class="sub" href="#result-nav">Result Navigation</a>
+    <a href="#rmse">4.3 RMSE Calculation</a>
+    <a class="sub" href="#rmse-controls">Controls &amp; Procedure</a>
+  </nav>
+
+  <main class="content">
+    <div class="page-title-block">
+      <div class="module-tag">Module 4</div>
+      <h1>Pattern Validation</h1>
+      <p class="lead">Checks the quality of the speckle pattern applied to your specimen surface. A properly prepared speckle pattern is essential for accurate DIC tracking. This module has two sub-modes: the Speckle Analyzer and the RMSE Noise Calculator.</p>
+    </div>
+
+    <div class="fig">
+      <img src="images/p1.png" alt="Pattern Validation mode toggle" onerror="this.parentElement.className='fig-placeholder';this.parentElement.innerHTML='<div class=ph-label>[Screenshot: Pattern Validation screen with mode toggle bar at top]</div>'">
+      <div class="fig-caption">Figure 4.1 — Pattern Validation module with sub-mode toggle buttons</div>
+    </div>
+
+    <!-- 4.1 Mode Toggle -->
+    <h2 id="mode-toggle">4.1 &nbsp; Mode Toggle Bar</h2>
+    <p>Two buttons at the top of the screen switch between the two sub-modes. Only one sub-mode is active at a time.</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Button</th><th>Sub-Mode</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>Speckle Analyzer (green)</td><td>Section 4.2</td><td>Analyzes the speckle pattern on the specimen: measures coverage percentage, mean dot size, size distribution, and derives subset size recommendations.</td></tr>
+        <tr><td>RMSE Calculation (blue)</td><td>Section 4.3</td><td>Computes the image noise level (Root Mean Square Error) by comparing two images of the undeformed specimen. This gives the baseline measurement noise floor.</td></tr>
+      </tbody>
+    </table></div>
+    <p>The currently active sub-mode button appears brighter/highlighted. Click either button at any time to switch — no data is lost when switching between sub-modes.</p>
+
+    <!-- 4.2 Speckle Analyzer -->
+    <h2 id="speckle-analyzer">4.2 &nbsp; Sub-Mode: Speckle Analyzer</h2>
+    <p>This sub-mode automatically detects and measures all speckle dots in your image. It produces numerical metrics and charts describing the pattern quality.</p>
+
+    <h3 id="speckle-controls">Left Sidebar — Controls</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Control</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>Upload Image (button)</td><td>Loads a new image file for speckle analysis. The application automatically loads the first image from the Acquisition module by default. Use this button only if you want to analyze a different image.</td></tr>
+        <tr><td>Live Capture (purple button)</td><td>Opens an embedded camera capture dialog to acquire a live speckle image for immediate analysis.</td></tr>
+        <tr><td>Image status label</td><td>Shows <em>"✓ Image loaded: W×H pixels"</em> in green when an image is available; <em>"✗ No image"</em> in red otherwise.</td></tr>
+        <tr><td>Select ROI (button)</td><td>Draw a rectangular region of interest on the right-panel canvas. Only the content within the ROI will be analyzed. This is useful when the specimen occupies only part of the image frame.</td></tr>
+        <tr><td>Clear ROI (button)</td><td>Removes the active ROI and returns to full-image analysis. Disabled until an ROI has been set.</td></tr>
+        <tr><td>Analyze Speckles: Black / White (radio buttons)</td><td>Select the color of your speckle dots. <strong>Black</strong>: dark speckles on a light background (most common). <strong>White</strong>: light speckles on a dark background. This determines the binarization direction used internally.</td></tr>
+        <tr><td>Auto (Otsu) checkbox</td><td>When ticked (default recommended), the application uses Otsu's method to automatically determine the optimal binarization threshold. This adapts to variations in image brightness and contrast. Untick to set the threshold manually.</td></tr>
+        <tr><td>Manual Threshold slider (0–255)</td><td>Active only when the Auto checkbox is unticked. Drag to set the pixel intensity cutoff that separates speckle dots from the background. Useful when automatic detection produces incorrect results due to uneven lighting.</td></tr>
+        <tr><td>Analyze Pattern (large green button)</td><td>Runs the full speckle detection and analysis. May take 1–10 seconds depending on image size and speckle count. Disabled if no image is loaded.</td></tr>
+        <tr><td>Reset (red button)</td><td>Clears all analysis results and overlays. The loaded image is retained.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3 id="speckle-results">Analysis Results (Left Panel — Bottom)</h3>
+    <p>After clicking <strong>Analyze Pattern</strong>, the results section at the bottom of the left panel fills with metrics:</p>
+
+    <div class="fig">
+      <img src="images/p2.png" alt="Speckle analysis results" onerror="this.parentElement.className='fig-placeholder';this.parentElement.innerHTML='<div class=ph-label>[Screenshot: Results text box showing coverage, size, and quality metrics]</div>'">
+      <div class="fig-caption">Figure 4.2 — Speckle analysis results box</div>
+    </div>
+
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Result Field</th><th>Description</th><th>Target / Notes</th></tr></thead>
+      <tbody>
+        <tr><td>Coverage %</td><td>Percentage of the analyzed area (or ROI) covered by speckle dots.</td><td><strong>Ideal range: 25–50%.</strong> Below 25%: too sparse; above 50%: too dense.</td></tr>
+        <tr><td>Total Speckles</td><td>The total number of individual speckle dots detected within the analysis area.</td><td>—</td></tr>
+        <tr><td>Mean Diameter (px)</td><td>The average equivalent diameter of detected speckle dots in pixels.</td><td>Aim for 3–7 px mean diameter. Speckles smaller than 2 px are too small for reliable tracking.</td></tr>
+        <tr><td>Dominant Size Range</td><td>The speckle size range (e.g., <code>4–6 px</code>) containing the most dots.</td><td>—</td></tr>
+        <tr><td>Quality Rating</td><td>An overall assessment: <em>Optimal</em>, <em>Low density</em>, <em>High density</em>, or <em>Poor</em>.</td><td>Aim for <em>Optimal</em> before proceeding.</td></tr>
+        <tr><td>Size Distribution table</td><td>Percentage of speckles falling into each size bin: &lt;2 px, 2–4 px, 4–6 px, 6–8 px, 8–12 px, 12–16 px, &gt;16 px.</td><td>Large speckles (&gt;16 px) may indicate paint clumping or over-spraying.</td></tr>
+        <tr><td>Subset Size Recommendations</td><td>Suggested DIC subset sizes derived from your mean speckle diameter. Typically 3–5× the mean diameter.</td><td>Use these values as starting points for the DIC Analysis module settings.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3 id="result-nav">Result Navigation (Bottom of Right Panel)</h3>
+    <p>After analysis, the right panel cycles through multiple visual result views using navigation buttons:</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Control</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>◀ Previous (button)</td><td>Cycle backward through result views.</td></tr>
+        <tr><td>Step label (center)</td><td>Shows the name of the current view (e.g., <em>"Detected Speckles"</em>, <em>"Binary Image"</em>, <em>"Size Distribution Chart"</em>).</td></tr>
+        <tr><td>Next ▶ (button)</td><td>Cycle forward through result views.</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="tip">If coverage is below 25%, spray another thin layer of black paint over the existing pattern. If coverage is above 50%, you may need to start over with a lighter speckle application on a freshly painted white base coat.</div>
+
+    <!-- 4.3 RMSE -->
+    <h2 id="rmse">4.3 &nbsp; Sub-Mode: RMSE Calculation</h2>
+    <p>The RMSE sub-mode quantifies the image noise of your camera-lens system by comparing two images taken under identical conditions with no specimen deformation. The resulting RMSE value represents the <em>noise floor</em> — the minimum detectable displacement your system can resolve above random intensity noise.</p>
+
+    <div class="fig">
+      <img src="images/p4.png" alt="RMSE calculation sub-mode" onerror="this.parentElement.className='fig-placeholder';this.parentElement.innerHTML='<div class=ph-label>[Screenshot: RMSE Calculation sub-mode screen]</div>'">
+      <div class="fig-caption">Figure 4.3 — RMSE Calculation sub-mode</div>
+    </div>
+
+    <div class="note">RMSE stands for Root Mean Square Error. In this context it measures the pixel-level intensity difference between two images that should be identical. A high RMSE indicates noisy images or vibration issues in the imaging setup.</div>
+
+    <h3 id="rmse-controls">Controls &amp; Procedure</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Control</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>Load Image 1 (button)</td><td>Load the first reference image (one exposure taken with no load applied to the specimen).</td></tr>
+        <tr><td>Load Image 2 (button)</td><td>Load the second reference image (a second exposure taken immediately after the first, with no movement or loading).</td></tr>
+        <tr><td>Select ROI (button)</td><td>Restrict the RMSE calculation to a specific region of the images (e.g., only the speckled area of the specimen).</td></tr>
+        <tr><td>Calculate RMSE (green button)</td><td>Computes the statistical difference between the two images in the selected region. Results appear below.</td></tr>
+        <tr><td>RMSE value (result label)</td><td>The computed RMSE in gray-level intensity units. Lower is better. Typical well-configured setups: &lt;1.0. Values &gt;3.0 suggest significant noise or vibration.</td></tr>
+      </tbody>
+    </table></div>
+
+    <p>Procedure for RMSE measurement:</p>
+    <div class="procedure">
+      <div class="proc-step"><p>Without applying any load, take two sequential images of the specimen in the exact same position.</p></div>
+      <div class="proc-step"><p>Load Image 1 and Image 2 using the respective buttons.</p></div>
+      <div class="proc-step"><p>Optionally draw an ROI over the speckled region only, to exclude background areas.</p></div>
+      <div class="proc-step"><p>Click <strong>Calculate RMSE</strong>. Review the resulting value.</p></div>
+    </div>
+    <div class="warning">If RMSE is unexpectedly high (&gt;2.5 intensity units), investigate: check for camera vibration from nearby equipment, air currents causing speckle movement, or short exposure times combined with high ISO causing sensor noise. Address the root cause before proceeding.</div>
+
+    <div class="page-nav">
+      <a href="module3_focus_quality.html" class="prev">Focus Quality</a>
+      <span class="page-label">Module 4 of 5</span>
+      <a href="module5_dic_analysis.html" class="next">DIC Analysis &amp; Results</a>
+    </div>
+  </main>
+</div>
+
+<footer class="site-footer">&copy; InsituMicron &mdash; DIC Application User Manual &mdash; Professional Edition</footer>
+<script>
+(function(){
+  var sections = document.querySelectorAll('[id]');
+  var navLinks = document.querySelectorAll('.sidebar a');
+  if (!navLinks.length) return;
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if (entry.isIntersecting) {
+        var id = entry.target.getAttribute('id');
+        navLinks.forEach(function(a){ a.classList.remove('active'); });
+        var active = document.querySelector('.sidebar a[href="#' + id + '"]');
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-15% 0px -70% 0px', threshold: 0 });
+  sections.forEach(function(s){ io.observe(s); });
+})();
+</script></body>
+</html>

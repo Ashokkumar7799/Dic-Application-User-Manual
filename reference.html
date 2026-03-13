@@ -1,0 +1,176 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/x-icon" href="images/logo.ico">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quick Reference — DIC Application User Manual</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="index.html"><img src="images/title.png" alt="InsituMicron DIC Application" class="brand-img"><span class="brand-divider"></span><span class="brand-manual">User Manual</span></a>
+  <nav class="header-nav">
+    <a href="index.html">Home</a>
+    <a href="license.html">Startup</a>
+    <div class="nav-dropdown">
+      <span class="nav-btn">Modules</span>
+      <div class="dropdown-menu">
+        <a href="module1_acquisition.html"><span class="mod-num">1</span>Image Acquisition</a>
+        <a href="module2_calibration.html"><span class="mod-num">2</span>Calibration</a>
+        <a href="module3_focus_quality.html"><span class="mod-num">3</span>Focus Quality</a>
+        <a href="module4_pattern_validation.html"><span class="mod-num">4</span>Pattern Validation</a>
+        <a href="module5_dic_analysis.html"><span class="mod-num">5</span>DIC Analysis</a>
+      </div>
+    </div>
+    <a href="reference.html" class="active">Reference</a>
+  </nav></header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-label">On This Page</div>
+    <a href="#workflow">Workflow Summary</a>
+    <a href="#parameters">Key Parameters</a>
+    <a href="#troubleshooting">Troubleshooting</a>
+    <a href="#glossary">Glossary</a>
+  </nav>
+
+  <main class="content">
+    <div class="page-title-block">
+      <div class="module-tag">Reference</div>
+      <h1>Quick Reference &amp; Troubleshooting</h1>
+      <p class="lead">A condensed reference covering the full workflow, recommended parameter values, common problems with their solutions, and a glossary of key terms.</p>
+    </div>
+
+    <!-- Workflow -->
+    <h2 id="workflow">Complete Workflow Summary</h2>
+    <p>Follow these steps in order every time you perform a DIC test. Skipping steps may result in physically meaningless results or failed analysis.</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th style="width:60px">Step</th><th>Module</th><th>Minimum Required Actions</th><th>Go/No-Go Check</th></tr></thead>
+      <tbody>
+        <tr>
+          <td style="text-align:center;font-size:18px;">⭐</td>
+          <td><strong>License &amp; Startup</strong></td>
+          <td>Paste license key → Tick Terms checkbox → Click Activate</td>
+          <td>Green banner visible. Continue button enabled.</td>
+        </tr>
+        <tr>
+          <td style="text-align:center;font-weight:700;color:var(--blue);">1</td>
+          <td><a href="module1_acquisition.html"><strong>Image Acquisition</strong></a></td>
+          <td>Import image files or capture via camera → Click Execute Module</td>
+          <td>"✓ Images Ready!" banner visible.</td>
+        </tr>
+        <tr>
+          <td style="text-align:center;font-weight:700;color:var(--blue);">2</td>
+          <td><a href="module2_calibration.html"><strong>Calibration</strong></a></td>
+          <td>Choose method (Auto Grid / Import / Manual Scale) → Apply or complete calibration</td>
+          <td>Calibration status shows confirmed mm/px ratio or "✓ Calibration Successful".</td>
+        </tr>
+        <tr>
+          <td style="text-align:center;font-weight:700;color:var(--blue);">3</td>
+          <td><a href="module3_focus_quality.html"><strong>Focus Quality</strong></a></td>
+          <td>Click RUN ANALYSIS → Review rating and heatmap</td>
+          <td>Rating must be <strong>EXCELLENT</strong> or <strong>ACCEPTABLE</strong>. Do not proceed with MARGINAL or POOR.</td>
+        </tr>
+        <tr>
+          <td style="text-align:center;font-weight:700;color:var(--blue);">4</td>
+          <td><a href="module4_pattern_validation.html"><strong>Pattern Validation</strong></a></td>
+          <td>Upload speckle image → Click Analyze Pattern → Check results</td>
+          <td>Coverage 25–50%. Quality rating = <strong>Optimal</strong>.</td>
+        </tr>
+        <tr>
+          <td style="text-align:center;font-weight:700;color:var(--blue);">5</td>
+          <td><a href="module5_dic_analysis.html"><strong>DIC Analysis &amp; Results</strong></a></td>
+          <td>Load sequence → Draw ROI → Set Subset Size → Click Run DIC Analysis → Browse results → Export CSV</td>
+          <td>Analysis completes without errors. Results graphs show expected trend.</td>
+        </tr>
+      </tbody>
+    </table></div>
+
+    <!-- Key Parameters -->
+    <h2 id="parameters">Key Parameter Guidelines</h2>
+    <p>These values represent best-practice defaults. Adjust based on your specific camera, optics, and test conditions.</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Parameter</th><th>Where Set</th><th>Recommended Value</th><th>Rationale</th></tr></thead>
+      <tbody>
+        <tr><td>Speckle Coverage</td><td>Pattern Validation</td><td>25–50%</td><td>Below 25%: too few features for tracking. Above 50%: individual dots merge, making detection unreliable.</td></tr>
+        <tr><td>Mean Speckle Diameter</td><td>Pattern Validation (result)</td><td>3–7 px</td><td>Speckles smaller than 2 px are sub-pixel and unreliable. Larger than 10 px wastes area without improving tracking.</td></tr>
+        <tr><td>Subset Size</td><td>DIC Analysis</td><td>3–5× mean speckle diameter</td><td>Must contain enough pattern-unique texture for the correlation to be unambiguous. Too small: noise. Too large: loses spatial resolution.</td></tr>
+        <tr><td>Grid Step</td><td>DIC Analysis</td><td>0.5–1× Subset Size</td><td>Smaller than the subset is acceptable for dense fields. Much larger than the subset wastes spatial resolution.</td></tr>
+        <tr><td>Blur Threshold</td><td>Focus Quality</td><td>20 (FLIR class), 1900 (FLIR hardware)</td><td>FLIR industrial cameras produce very high Laplacian-variance scores. Standard USB cameras score much lower. The Live Focus tool sets this automatically when you click Start Camera.</td></tr>
+        <tr><td>Calibration Images (Auto Grid)</td><td>Calibration</td><td>15–20 images</td><td>Minimum 10 required. More images from more varied angles improve calibration accuracy and reduce reprojection error.</td></tr>
+        <tr><td>Save Rate (Live Camera)</td><td>Acquisition</td><td>Match to test speed</td><td>For quasi-static tests (mm/min crosshead speed): 1–2 FPS. For impact or dynamic tests: maximum available (15 FPS).</td></tr>
+        <tr><td>Skip Frames</td><td>Acquisition (Preview)</td><td>0 for quasi-static; N for high-speed</td><td>For high-speed sequences (&gt;100 frames), use skip to reduce the dataset to a manageable size for analysis.</td></tr>
+      </tbody>
+    </table></div>
+
+    <!-- Troubleshooting -->
+    <h2 id="troubleshooting">Troubleshooting</h2>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Problem</th><th>Likely Cause</th><th>Solution</th></tr></thead>
+      <tbody>
+        <tr><td>"Invalid license key" error</td><td>Key does not match this Machine ID, or key was pasted with extra whitespace</td><td>Re-copy the key from your vendor email. Paste into a plain text editor first to check for extra characters. Then paste into the application.</td></tr>
+        <tr><td>Activate button stays greyed out</td><td>Terms and Conditions checkbox is not ticked</td><td>Scroll through the Terms text area and tick the "I have read and agree…" checkbox.</td></tr>
+        <tr><td>License works but application doesn't start</td><td>Missing Python dependencies or corrupted installation</td><td>Contact your vendor with the error message that appears in any popup or console window.</td></tr>
+        <tr><td>Focus quality rating is POOR</td><td>Camera is physically out of focus</td><td>Use the Live Focus Evaluator (Module 3 → Live Focus button) to adjust the camera focus ring while monitoring the real-time focus score.</td></tr>
+        <tr><td>Heatmap is uniformly cold (blue)</td><td>Global blur — entire image is defocused</td><td>Refocus the camera from scratch. If using a fixed-lens setup, check that the working distance matches the lens specification.</td></tr>
+        <tr><td>Calibration fails with detection error</td><td>Pattern not detected in one or more images</td><td>Check: image sharpness, correct pattern type selected, correct square/dot size entered, target fully visible in each image with no cut-off corners.</td></tr>
+        <tr><td>RMS reprojection error &gt;1.5 px</td><td>Inconsistent target images or incorrect dimension inputs</td><td>Remove images where the target was blurry or the view was oblique. Verify that all physical dimension inputs are in mm and are accurate.</td></tr>
+        <tr><td>Speckle coverage is &lt;25%</td><td>Pattern is too sparse</td><td>Apply an additional light spray coat of black paint (without fully re-painting the white base coat). Allow to dry fully before re-acquiring.</td></tr>
+        <tr><td>Speckle coverage is &gt;50%</td><td>Over-sprayed or dots have merged</td><td>Repaint the specimen — apply a clean white base coat first, then a lighter speckle application.</td></tr>
+        <tr><td>DIC analysis fails mid-sequence</td><td>Subset correlation fails on a frame due to excessive deformation or image quality drop</td><td>Adaptive reference is always enabled, but a sudden large load step can exceed the search range. Try reducing the subset size or using a coarser grid step. Check that no acquired frames are blurry or overexposed.</td></tr>
+        <tr><td>All strain values are zero or near-zero</td><td>Calibration not completed, or reference frame is the deformed image</td><td>Verify calibration is applied. Confirm that Image 1 in the sequence is the undeformed reference state.</td></tr>
+        <tr><td>CSV export produces an empty file</td><td>No results data available (analysis not run or stopped before any frames completed)</td><td>Re-run the analysis. Ensure at least one frame was processed before attempting export.</td></tr>
+      </tbody>
+    </table></div>
+
+    <!-- Glossary -->
+    <h2 id="glossary">Glossary of Key Terms</h2>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Term</th><th>Definition</th></tr></thead>
+      <tbody>
+        <tr><td>DIC</td><td>Digital Image Correlation — an optical measurement technique that tracks the motion of image features (speckles) to compute full-field surface displacement and strain.</td></tr>
+        <tr><td>Reference Frame</td><td>The first image in the sequence, representing the undeformed state of the specimen. All displacements are measured relative to this image.</td></tr>
+        <tr><td>Subset</td><td>A small square image patch used as the correlation template for tracking a single point. Also called a facet.</td></tr>
+        <tr><td>ROI</td><td>Region of Interest — the portion of the image that is analyzed. Restricting the ROI to the specimen surface improves speed and accuracy.</td></tr>
+        <tr><td>Strain Field</td><td>A spatial map showing the strain value at every tracked point across the specimen surface.</td></tr>
+        <tr><td>Principal Strains</td><td>Major and Minor strains — the maximum and minimum normal strains at a point, found by rotating to the principal coordinate system. Useful for identifying failure-critical locations.</td></tr>
+        <tr><td>Speckle Pattern</td><td>A random, high-contrast dot pattern applied to the specimen surface. Provides the unique local image texture required for DIC tracking.</td></tr>
+        <tr><td>Coverage %</td><td>The fraction of the image area (or ROI) covered by speckle dots. Ideal range: 25–50%.</td></tr>
+        <tr><td>RMSE</td><td>Root Mean Square Error — used here to quantify image noise. Lower RMSE = lower noise floor = better measurement sensitivity.</td></tr>
+        <tr><td>Laplacian Variance</td><td>The focus score metric used by the Focus Quality module. Computed as the variance of the second-order spatial derivative of the image. Higher value = sharper image.</td></tr>
+        <tr><td>CV (Coefficient of Variation)</td><td>Standard deviation divided by mean, expressed as a percentage. A lower CV indicates more uniform focus across the image.</td></tr>
+        <tr><td>Machine ID</td><td>A hardware-derived unique identifier for your computer, used to bind a software license to a specific machine.</td></tr>
+        <tr><td>mm/px</td><td>Millimeters per pixel — the calibration scale factor that converts pixel distances in the image to real-world physical distances.</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="page-nav">
+      <a href="module5_dic_analysis.html" class="prev">DIC Analysis &amp; Results</a>
+      <span class="page-label"></span>
+      <a href="index.html" class="next">Back to Home</a>
+    </div>
+  </main>
+</div>
+
+<footer class="site-footer">&copy; InsituMicron &mdash; DIC Application User Manual &mdash; Professional Edition</footer>
+<script>
+(function(){
+  var sections = document.querySelectorAll('[id]');
+  var navLinks = document.querySelectorAll('.sidebar a');
+  if (!navLinks.length) return;
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if (entry.isIntersecting) {
+        var id = entry.target.getAttribute('id');
+        navLinks.forEach(function(a){ a.classList.remove('active'); });
+        var active = document.querySelector('.sidebar a[href="#' + id + '"]');
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-15% 0px -70% 0px', threshold: 0 });
+  sections.forEach(function(s){ io.observe(s); });
+})();
+</script></body>
+</html>

@@ -1,0 +1,185 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/x-icon" href="images/logo.ico">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>License & Startup — DIC Application User Manual</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="index.html"><img src="images/title.png" alt="InsituMicron DIC Application" class="brand-img"><span class="brand-divider"></span><span class="brand-manual">User Manual</span></a>
+  <nav class="header-nav">
+    <a href="index.html">Home</a>
+    <a href="license.html" class="active">Startup</a>
+    <div class="nav-dropdown">
+      <span class="nav-btn">Modules</span>
+      <div class="dropdown-menu">
+        <a href="module1_acquisition.html"><span class="mod-num">1</span>Image Acquisition</a>
+        <a href="module2_calibration.html"><span class="mod-num">2</span>Calibration</a>
+        <a href="module3_focus_quality.html"><span class="mod-num">3</span>Focus Quality</a>
+        <a href="module4_pattern_validation.html"><span class="mod-num">4</span>Pattern Validation</a>
+        <a href="module5_dic_analysis.html"><span class="mod-num">5</span>DIC Analysis</a>
+      </div>
+    </div>
+    <a href="reference.html">Reference</a>
+  </nav></header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-label">On This Page</div>
+    <a href="#overview">Overview</a>
+    <a href="#header">1.1 Header</a>
+    <a href="#status-banner">1.2 License Status Banner</a>
+    <a href="#terms">1.3 Terms and Conditions</a>
+    <a href="#machine-id">1.4 Machine ID &amp; License Key</a>
+    <a href="#activation">1.5 Activation Button</a>
+    <a href="#steps">First-Time Activation Steps</a>
+  </nav>
+
+  <main class="content">
+    <div class="page-title-block">
+      <div class="module-tag">Startup Screen</div>
+      <h1>License &amp; Startup</h1>
+      <p class="lead">The first screen you see when launching the DIC Application. You cannot access any other part of the software until your license is validated. This section explains every element on the startup screen and walks you through the activation process.</p>
+    </div>
+
+    <div class="fig">
+      <img src="images/license.png" alt="License startup screen" onerror="this.parentElement.className='fig-placeholder';this.parentElement.innerHTML='<div class=ph-label>[Screenshot: Full license startup screen]</div>'">
+      <div class="fig-caption">Figure 1.1 — License &amp; Startup screen on first launch</div>
+    </div>
+
+    <!-- 1.1 -->
+    <h2 id="header">1.1 &nbsp; Header</h2>
+    <p>At the very top of the screen, the application displays its identity information. No user action is needed in this area.</p>
+    <ul>
+      <li><strong>InsituMicron logo / title image</strong> — confirms which software you are running.</li>
+      <li><strong>"Digital Image Correlation Framework"</strong> — the full product name.</li>
+      <li><strong>"Professional Edition"</strong> — the software edition label.</li>
+    </ul>
+
+    <!-- 1.2 -->
+    <h2 id="status-banner">1.2 &nbsp; License Status Banner</h2>
+    <p>Directly below the header, a color-coded banner shows your current license state at a glance.</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Banner Color</th><th>Message Displayed</th><th>Meaning</th></tr></thead>
+      <tbody>
+        <tr><td>Yellow</td><td>"License Required — Please activate your license to continue"</td><td>No valid license is saved on this machine. You must enter and activate a key before you can proceed.</td></tr>
+        <tr><td>Green</td><td>"✓ Licensed to: [Your Name] | Expires: [Date] ([N] days remaining)"</td><td>A valid license is already stored on this machine. The Continue button is automatically enabled.</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="fig">
+      <img src="images/l1.png" alt="Status banner — not licensed" onerror="this.parentElement.className='fig-placeholder';this.parentElement.innerHTML='<div class=ph-label>[Screenshot: Yellow status banner — not licensed]</div>'">
+      <div class="fig-caption">Figure 1.2a — Yellow banner indicating no license found</div>
+    </div>
+    <div class="fig">
+      <img src="images/l11.png" alt="Status banner — licensed" onerror="this.parentElement.className='fig-placeholder';this.parentElement.innerHTML='<div class=ph-label>[Screenshot: Green status banner — licensed]</div>'">
+      <div class="fig-caption">Figure 1.2b — Green banner showing an active license</div>
+    </div>
+
+    <div class="note">If the banner is green, the application will automatically enable the Continue button. You can proceed directly without re-entering any key.</div>
+
+    <!-- 1.3 -->
+    <h2 id="terms">1.3 &nbsp; Terms and Conditions</h2>
+    <p>A scrollable text area displays the full Software License Agreement. You must read and accept this agreement before the Activate button becomes clickable.</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Element</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td>Terms and Conditions (scrollable box)</td><td>Displays the full license agreement text. Scroll to read the entire document before accepting.</td></tr>
+        <tr><td>Checkbox — "I have read and agree to the Terms and Conditions"</td><td>You must tick this checkbox to enable the Activate button. Leaving it unticked keeps the button grayed out and non-functional.</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="fig">
+      <img src="images/l2.png" alt="Terms and Conditions area" onerror="this.parentElement.className='fig-placeholder';this.parentElement.innerHTML='<div class=ph-label>[Screenshot: Terms and Conditions scroll box with checkbox]</div>'">
+      <div class="fig-caption">Figure 1.3 — Terms and Conditions section with the agreement checkbox</div>
+    </div>
+
+    <div class="warning">You must scroll through the Terms and Conditions and tick the checkbox before the Activate button will respond to clicks. This is enforced by the application.</div>
+
+    <!-- 1.4 -->
+    <h2 id="machine-id">1.4 &nbsp; Machine ID &amp; License Key</h2>
+    <p>This section is used during first-time activation. It contains three key elements that work together to bind your license to this specific computer.</p>
+
+    <div class="fig">
+      <img src="images/l3.png" alt="Machine ID and license key" onerror="this.parentElement.className='fig-placeholder';this.parentElement.innerHTML='<div class=ph-label>[Screenshot: Machine ID box, Copy button, and License Key input]</div>'">
+      <div class="fig-caption">Figure 1.4 — Machine ID, Copy button, and License Key entry</div>
+    </div>
+
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Element</th><th>Purpose</th><th>Action Required</th></tr></thead>
+      <tbody>
+        <tr><td>Your Machine ID (read-only text box)</td><td>A unique identifier generated from your PC's hardware. This code is tied permanently to this specific computer.</td><td>Do not edit this field. Simply read the value or use the Copy button.</td></tr>
+        <tr><td>Copy (button)</td><td>Copies your Machine ID to the Windows clipboard so you can paste it into an email or form.</td><td>Click <strong>Copy</strong>, then send the Machine ID to your software vendor. They use it to generate a license key that only works on this computer.</td></tr>
+        <tr><td>Enter License Key (large text box)</td><td>The field where you paste the license key received from your vendor.</td><td>Paste your license key here exactly as provided — including all hyphens and characters. Do not add or remove spaces.</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="caution">Your license key is hardware-locked. It will only activate on the computer whose Machine ID was submitted to the vendor. Attempting to use the same key on a different machine will result in an "Invalid license key" error.</div>
+
+    <!-- 1.5 -->
+    <h2 id="activation">1.5 &nbsp; Activation Button</h2>
+
+    <div class="fig">
+      <img src="images/l4.png" alt="Activation button" onerror="this.parentElement.className='fig-placeholder';this.parentElement.innerHTML='<div class=ph-label>[Screenshot: Activate License &amp; Continue button]</div>'">
+      <div class="fig-caption">Figure 1.5 — The Activate button and its states</div>
+    </div>
+
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Button</th><th>State / Color</th><th>Function</th></tr></thead>
+      <tbody>
+        <tr><td>Activate License &amp; Continue</td><td>Grey (disabled) until the Terms checkbox is ticked</td><td>Reads the key in the License Key box, validates it against the current Machine ID, and — if valid — opens the main application workspace.</td></tr>
+        <tr><td>✓ Continue to Application</td><td>Green — only shown when a valid license is already stored</td><td>Skips key entry entirely and opens the main application directly.</td></tr>
+      </tbody>
+    </table></div>
+
+    <p>After clicking <strong>Activate License &amp; Continue</strong>:</p>
+    <ul>
+      <li><strong>If successful:</strong> The status banner turns green and displays your name and expiry date. The application launches automatically after approximately one second.</li>
+      <li><strong>If it fails:</strong> A red error message appears below the button — <em>"✗ Invalid license key"</em>. Verify you copied the full key without leading or trailing spaces.</li>
+    </ul>
+
+    <!-- Steps -->
+    <h2 id="steps">First-Time Activation — Step by Step</h2>
+    <div class="procedure">
+      <div class="proc-step"><p>Scroll through the <strong>Terms and Conditions</strong> text box. Read the agreement before proceeding.</p></div>
+      <div class="proc-step"><p>Tick the <strong>"I have read and agree to the Terms and Conditions"</strong> checkbox. The Activate button will become clickable.</p></div>
+      <div class="proc-step"><p>Click the <strong>Copy</strong> button to copy your Machine ID to the clipboard.</p></div>
+      <div class="proc-step"><p>Send the Machine ID to your InsituMicron software vendor (by email or the method specified in your purchase agreement). They will generate a license key for your machine.</p></div>
+      <div class="proc-step"><p>When you receive your license key, paste it into the <strong>Enter License Key</strong> text box. Ensure the entire key is captured.</p></div>
+      <div class="proc-step"><p>Click <strong>Activate License &amp; Continue</strong>. The application will validate the key and open.</p></div>
+    </div>
+
+    <div class="tip">Once activated, the license is saved locally on your machine. On subsequent launches, the application will detect the stored license and show the green banner — you will not need to re-enter the key.</div>
+
+    <div class="page-nav">
+      <span></span>
+      <span class="page-label">Next: Module 1 — Image Acquisition</span>
+      <a href="module1_acquisition.html" class="next">Image Acquisition</a>
+    </div>
+  </main>
+</div>
+
+<footer class="site-footer">&copy; InsituMicron &mdash; DIC Application User Manual &mdash; Professional Edition</footer>
+<script>
+(function(){
+  var sections = document.querySelectorAll('[id]');
+  var navLinks = document.querySelectorAll('.sidebar a');
+  if (!navLinks.length) return;
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if (entry.isIntersecting) {
+        var id = entry.target.getAttribute('id');
+        navLinks.forEach(function(a){ a.classList.remove('active'); });
+        var active = document.querySelector('.sidebar a[href="#' + id + '"]');
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-15% 0px -70% 0px', threshold: 0 });
+  sections.forEach(function(s){ io.observe(s); });
+})();
+</script></body>
+</html>

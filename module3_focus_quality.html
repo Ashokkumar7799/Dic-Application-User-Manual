@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/x-icon" href="images/logo.ico">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 3: Focus Quality — DIC Application User Manual</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="index.html"><img src="images/title.png" alt="InsituMicron DIC Application" class="brand-img"><span class="brand-divider"></span><span class="brand-manual">User Manual</span></a>
+  <nav class="header-nav">
+    <a href="index.html">Home</a>
+    <a href="license.html">Startup</a>
+    <div class="nav-dropdown">
+      <span class="nav-btn active">Modules</span>
+      <div class="dropdown-menu">
+        <a href="module1_acquisition.html"><span class="mod-num">1</span>Image Acquisition</a>
+        <a href="module2_calibration.html"><span class="mod-num">2</span>Calibration</a>
+        <a href="module3_focus_quality.html" class="active"><span class="mod-num">3</span>Focus Quality</a>
+        <a href="module4_pattern_validation.html"><span class="mod-num">4</span>Pattern Validation</a>
+        <a href="module5_dic_analysis.html"><span class="mod-num">5</span>DIC Analysis</a>
+      </div>
+    </div>
+    <a href="reference.html">Reference</a>
+  </nav></header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-label">On This Page</div>
+    <a href="#overview">Overview</a>
+    <a href="#title-bar">3.1 Title Bar</a>
+    <a href="#left-panel">3.2 Left Panel — Controls</a>
+    <a href="#results">3.3 Quality Ratings</a>
+    <a href="#heatmap">3.4 Focus Heatmap</a>
+    <a href="#live-focus">3.5 Live Focus Evaluator</a>
+    <a class="sub" href="#lf-controls">Top Control Bar</a>
+    <a class="sub" href="#lf-feed">Camera Feed</a>
+    <a class="sub" href="#lf-graphs">Real-Time Graphs</a>
+  </nav>
+
+  <main class="content">
+    <div class="page-title-block">
+      <div class="module-tag">Module 3</div>
+      <h1>Focus Quality Assessment</h1>
+      <p class="lead">Verifies that your images are sharp enough for reliable DIC analysis. The Focus Map Analyzer produces a per-patch sharpness heatmap and a single quality rating. A separate Live Focus Evaluator tool assists with physically adjusting your camera before testing begins.</p>
+    </div>
+
+    <div class="fig">
+      <img src="images/f1.png" alt="Focus Quality main screen" onerror="this.parentElement.className='fig-placeholder';this.parentElement.innerHTML='<div class=ph-label>[Screenshot: Focus Quality Assessment main screen]</div>'">
+      <div class="fig-caption">Figure 3.1 — Focus Quality Assessment module main screen</div>
+    </div>
+
+    <!-- 3.1 -->
+    <h2 id="title-bar">3.1 &nbsp; Title Bar</h2>
+    <p>The text <strong>FOCUS MAP ANALYZER</strong> spans the top of the screen. This text confirms which module you are in. It is not interactive.</p>
+
+    <!-- 3.2 -->
+    <h2 id="left-panel">3.2 &nbsp; Left Panel — Settings &amp; Controls</h2>
+    <p>All configuration and analysis controls are in the scrollable left panel.</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Control</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>Input Image (label + status text)</td><td>Displays the filename of the image loaded automatically from the Acquisition module. Status shows: <em>"✓ Image ready: W×H pixels"</em> in green if an image is available, or <em>"✗ No image loaded from acquisition"</em> in red if not.</td></tr>
+        <tr><td>Browse Image (button)</td><td>Manually load a different image file for focus analysis. By default the app uses the first image from the Acquisition module. Use this only if you want to analyze a specific frame.</td></tr>
+        <tr><td>Live Focus (button)</td><td>Opens the standalone Live Focus Evaluator window — a separate tool for real-time focus monitoring via a connected camera. See Section 3.5.</td></tr>
+        <tr><td>Set ROI (button)</td><td>Activates region-of-interest drawing mode. Click and drag on the right-panel image to draw a rectangle. Analysis will be restricted to that region only, which significantly speeds up processing for large images.</td></tr>
+        <tr><td>Clear ROI (button)</td><td>Removes the currently set ROI and restores full-image analysis. This button is disabled (greyed out) until an ROI has been set.</td></tr>
+        <tr><td>Patch Size: 32×32 / 64×64 (radio buttons)</td><td>Selects the block size used to tile the image for analysis. Each patch is scored individually. <code>32×32</code> produces a finer-resolution heatmap; <code>64×64</code> is faster and suitable for larger images or quick assessments.</td></tr>
+        <tr><td>Blur Threshold (numeric input)</td><td>The minimum focus score a patch must achieve to be considered "in focus." Default: <code>20</code>. Patches scoring below this threshold are marked as blurry in the heatmap. Adjust upward if your camera/lens setup produces high focus scores, or downward for soft optics.</td></tr>
+        <tr><td>Analysis Progress (label + progress bar)</td><td>Shows <em>"Ready to process"</em> before analysis. During analysis, an animated progress bar appears. Completed immediately for small images.</td></tr>
+        <tr><td>RUN ANALYSIS (large green button)</td><td>Starts the focus analysis in a background thread. The heatmap and results appear in the right panel when complete. This button is disabled while analysis is running.</td></tr>
+        <tr><td>RESET (red button)</td><td>Clears the heatmap, all result text, and the current ROI. Returns the module to its initial state. The loaded image is retained — only results are cleared.</td></tr>
+      </tbody>
+    </table></div>
+
+    <!-- 3.3 -->
+    <h2 id="results">3.3 &nbsp; Quality Assessment Results</h2>
+    <p>After analysis completes, a results box in the left panel displays a summary rating and statistics. The overall quality rating is one of four grades:</p>
+
+    <div class="fig">
+      <img src="images/f2.png" alt="Focus results box" onerror="this.parentElement.className='fig-placeholder';this.parentElement.innerHTML='<div class=ph-label>[Screenshot: Results box showing EXCELLENT rating in green]</div>'">
+      <div class="fig-caption">Figure 3.2 — Focus quality results box after analysis</div>
+    </div>
+
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Rating</th><th>Condition</th><th>Recommended Action</th></tr></thead>
+      <tbody>
+        <tr><td class="rating-excellent">EXCELLENT</td><td>Focus is highly uniform across the image. All or nearly all patches score above the threshold.</td><td>Proceed to the next module. No action needed.</td></tr>
+        <tr><td class="rating-acceptable">ACCEPTABLE</td><td>Minor focus softness at edges or corners. Most patches pass.</td><td>Proceeding is generally safe. Results may show slightly higher displacement noise near blurry areas.</td></tr>
+        <tr><td class="rating-marginal">MARGINAL</td><td>A significant proportion of patches are below the threshold. The image has noticeable variation in sharpness.</td><td>Strongly consider re-focusing the camera before acquisition. Use the Live Focus Evaluator (Section 3.5).</td></tr>
+        <tr><td class="rating-poor">POOR</td><td>The majority of patches fail. The image is globally blurry.</td><td>Do not proceed with DIC analysis. The image is insufficiently sharp. Re-focus the camera and re-acquire images.</td></tr>
+      </tbody>
+    </table></div>
+
+    <p>The results box also shows:</p>
+    <ul>
+      <li><strong>Mean focus score</strong> — average Laplacian variance across all patches.</li>
+      <li><strong>Percentage of patches passing</strong> — the fraction scoring above the blur threshold.</li>
+      <li><strong>Coefficient of variation (CV%)</strong> — how consistent the focus is across the image. Lower = more uniform.</li>
+    </ul>
+
+    <!-- 3.4 -->
+    <h2 id="heatmap">3.4 &nbsp; Right Panel — Focus Heatmap</h2>
+    <p>The right panel displays the reference image with a semi-transparent focus heatmap overlay. Each colored patch corresponds to one block of the image and is colored by its focus score. The heatmap updates automatically after each fresh analysis run.</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Heatmap Color</th><th>Meaning</th></tr></thead>
+      <tbody>
+        <tr><td>Red / Orange / Yellow (hot colors)</td><td>High focus score — this region is well-focused and sharp.</td></tr>
+        <tr><td>Green</td><td>Moderate focus score — borderline acceptable sharpness.</td></tr>
+        <tr><td>Blue / Violet (cool colors)</td><td>Low focus score — this region is out of focus or blurry.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="note">Use the heatmap to identify whether blurriness is global (uniformly cool-colored) or localized (e.g., only the edges are blue). Localized blur in the specimen area is more concerning than blur at the image periphery.</div>
+    <div class="warning">If the entire heatmap is uniformly cool-colored (blue/green throughout), the image is globally blurry. Do not proceed — re-focus the camera and re-acquire the image sequence before continuing.</div>
+
+    <!-- 3.5 -->
+    <h2 id="live-focus">3.5 &nbsp; Live Focus Evaluator</h2>
+    <p>Clicking the <strong>Live Focus</strong> button opens a standalone window — the Live Focus Evaluator. This tool is intended for use during setup, before you start capturing your actual test images. It provides real-time numerical and graphical feedback as you physically adjust the camera focus ring or specimen position.</p>
+
+    <div class="fig">
+      <img src="images/fl1.png" alt="Live Focus window" onerror="this.parentElement.className='fig-placeholder';this.parentElement.innerHTML='<div class=ph-label>[Screenshot: Live Focus Evaluator window — top control bar, left camera feed, right focus graph]</div>'">
+      <div class="fig-caption">Figure 3.3 — Live Focus Evaluator window</div>
+    </div>
+
+    <h3 id="lf-controls">Top Control Bar</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Control</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>Start Camera (FLIR) (button)</td><td>Connects to a FLIR hardware camera via PySpin and begins streaming. Once active, all other controls become operational.</td></tr>
+        <tr><td>Start Camera (USB/CV2) (button)</td><td>Connects to a standard USB webcam via OpenCV and begins streaming.</td></tr>
+        <tr><td>Stop Camera (button)</td><td>Disconnects the active camera. Disabled until a stream is active. The graph data is preserved; only the live feed stops.</td></tr>
+        <tr><td>Reset Graph (orange button)</td><td>Clears all accumulated graph history (time series, best score). Useful when you want to start a fresh focus search after repositioning the camera significantly.</td></tr>
+        <tr><td>Status: label (center)</td><td>Real-time status text showing the current quality rating (e.g., <em>"Status: EXCELLENT | Focus: 1423.2 | CV: 12.4%"</em>). Color changes: green for EXCELLENT/ACCEPTABLE, yellow for MARGINAL, red for POOR.</td></tr>
+        <tr><td>Guidance text (orange, next to status)</td><td>Dynamic instruction that updates based on focus trend: <em>"Move the camera/specimen slowly to find the peak"</em>, <em>"✅ New best focus! Hold position or try to improve."</em>, or <em>"❌ Focus degraded! Move back towards the peak."</em></td></tr>
+        <tr><td>Best Focus Score: (green label, top-right)</td><td>Displays the single best focus score recorded during this session (or since last Reset). <strong>Lower score = sharper image</strong> because the Y-axis is inverted — the software tracks the minimum of a Laplacian-based metric.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3 id="lf-feed">Left Panel — Live Camera Feed</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Element</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>Camera feed canvas</td><td>Displays the live image from the connected camera, refreshed at up to 10 display frames per second. Frames are downscaled to fit the panel — no image data is lost for analysis.</td></tr>
+        <tr><td>"Camera Feed Not Started / Select a camera to begin" placeholder</td><td>Shown before any camera is connected. Plain dark text on a light background.</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="tip">How to use: Watch the Status label and the Best Focus Score while slowly rotating the camera focus ring — or moving the specimen axially — from one extreme to the other. The point where the Best Focus Score value is at its minimum (and the label reads EXCELLENT) is your optimal focus position. Hold that position.</div>
+
+    <h3 id="lf-graphs">Right Panel — Real-Time Graph</h3>
+    <p>A real-time graph updates automatically every time a new frame is analyzed (approximately every 50 ms, i.e., up to ~10 FPS).</p>
+
+    <div class="fig">
+      <img src="images/fl2.png" alt="Live Focus graph" onerror="this.parentElement.className='fig-placeholder';this.parentElement.innerHTML='<div class=ph-label>[Screenshot: Real-time graph panel — Focus Score over Time]</div>'">
+      <div class="fig-caption">Figure 3.4 — Live Focus real-time graph: Focus Score over Time</div>
+    </div>
+
+    <h4>Graph — Focus Score over Time</h4>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Element</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Blue line</strong></td><td>The mean focus score plotted continuously over time (seconds on the X axis). <strong>Lower value = sharper focus.</strong> The Y axis is deliberately inverted so that sharper focus appears visually higher on the chart — making the "best" position easy to see as a peak.</td></tr>
+        <tr><td><strong>Green dot — "Peak Focus (Min)"</strong></td><td>A marker placed at the single minimum (best) focus score observed during the current session. As you improve focus, this dot moves upward on the chart. Use it as your target.</td></tr>
+        <tr><td><strong>X axis</strong></td><td>Displays up to the last 60 seconds of data. Scrolls automatically to keep the most recent readings visible.</td></tr>
+        <tr><td><strong>Y axis (inverted)</strong></td><td>Dynamically auto-scales to the range of values observed.</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="note">The graph shows a rolling window of the last 60 seconds of data. Older data beyond 60 s is automatically removed. If you hold a good focus position for too long without clicking Reset, the graph Y scale will compress — use Reset Graph to start fresh from any new position.</div>
+
+    <div class="page-nav">
+      <a href="module2_calibration.html" class="prev">Calibration</a>
+      <span class="page-label">Module 3 of 5</span>
+      <a href="module4_pattern_validation.html" class="next">Pattern Validation</a>
+    </div>
+  </main>
+</div>
+
+<footer class="site-footer">&copy; InsituMicron &mdash; DIC Application User Manual &mdash; Professional Edition</footer>
+<script>
+(function(){
+  var sections = document.querySelectorAll('[id]');
+  var navLinks = document.querySelectorAll('.sidebar a');
+  if (!navLinks.length) return;
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if (entry.isIntersecting) {
+        var id = entry.target.getAttribute('id');
+        navLinks.forEach(function(a){ a.classList.remove('active'); });
+        var active = document.querySelector('.sidebar a[href="#' + id + '"]');
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-15% 0px -70% 0px', threshold: 0 });
+  sections.forEach(function(s){ io.observe(s); });
+})();
+</script></body>
+</html>
