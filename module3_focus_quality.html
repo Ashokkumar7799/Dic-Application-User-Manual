@@ -135,7 +135,7 @@
         <tr><td>Reset Graph (orange button)</td><td>Clears all accumulated graph history (time series, best score). Useful when you want to start a fresh focus search after repositioning the camera significantly.</td></tr>
         <tr><td>Status: label (center)</td><td>Real-time status text showing the current quality rating (e.g., <em>"Status: EXCELLENT | Focus: 1423.2 | CV: 12.4%"</em>). Color changes: green for EXCELLENT/ACCEPTABLE, yellow for MARGINAL, red for POOR.</td></tr>
         <tr><td>Guidance text (orange, next to status)</td><td>Dynamic instruction that updates based on focus trend: <em>"Move the camera/specimen slowly to find the peak"</em>, <em>"✅ New best focus! Hold position or try to improve."</em>, or <em>"❌ Focus degraded! Move back towards the peak."</em></td></tr>
-        <tr><td>Best Focus Score: (green label, top-right)</td><td>Displays the single best focus score recorded during this session (or since last Reset). <strong>Lower score = sharper image</strong> because the Y-axis is inverted — the software tracks the minimum of a Laplacian-based metric.</td></tr>
+        <tr><td>Best Focus Score: (green label, top-right)</td><td>Displays the single best focus score recorded during this session (or since last Reset). <strong>Higher score = sharper image</strong>. The software isolates the sharpest 20% of the image (or ROI) to calculate a robust max peak score.</td></tr>
       </tbody>
     </table></div>
 
@@ -148,7 +148,7 @@
       </tbody>
     </table></div>
 
-    <div class="tip">How to use: Watch the Status label and the Best Focus Score while slowly rotating the camera focus ring — or moving the specimen axially — from one extreme to the other. The point where the Best Focus Score value is at its minimum (and the label reads EXCELLENT) is your optimal focus position. Hold that position.</div>
+    <div class="tip">How to use: Watch the Status label and the Best Focus Score while slowly rotating the camera focus ring — or moving the specimen axially — from one extreme to the other. The point where the Best Focus Score value is at its <strong>maximum</strong> (and the label reads EXCELLENT) is your optimal focus position. Hold that position.</div>
 
     <h3 id="lf-graphs">Right Panel — Real-Time Graph</h3>
     <p>A real-time graph updates automatically every time a new frame is analyzed (approximately every 50 ms, i.e., up to ~10 FPS).</p>
@@ -162,10 +162,10 @@
     <div class="tbl-wrap"><table>
       <thead><tr><th>Element</th><th>Description</th></tr></thead>
       <tbody>
-        <tr><td><strong>Blue line</strong></td><td>The mean focus score plotted continuously over time (seconds on the X axis). <strong>Lower value = sharper focus.</strong> The Y axis is deliberately inverted so that sharper focus appears visually higher on the chart — making the "best" position easy to see as a peak.</td></tr>
-        <tr><td><strong>Green dot — "Peak Focus (Min)"</strong></td><td>A marker placed at the single minimum (best) focus score observed during the current session. As you improve focus, this dot moves upward on the chart. Use it as your target.</td></tr>
+        <tr><td><strong>Blue line</strong></td><td>The mean focus score of the sharpest image regions plotted continuously over time (seconds on the X axis). <strong>Higher value = sharper focus.</strong> Watch for the peak to find the optimal focal plane.</td></tr>
+        <tr><td><strong>Green dot — "Peak Focus (Max)"</strong></td><td>A marker placed at the single maximum (best) focus score observed during the current session. As you improve focus, this dot moves upward on the chart. Use it as your target.</td></tr>
         <tr><td><strong>X axis</strong></td><td>Displays up to the last 60 seconds of data. Scrolls automatically to keep the most recent readings visible.</td></tr>
-        <tr><td><strong>Y axis (inverted)</strong></td><td>Dynamically auto-scales to the range of values observed.</td></tr>
+        <tr><td><strong>Y axis</strong></td><td>Dynamically auto-scales to the range of values observed.</td></tr>
       </tbody>
     </table></div>
 
