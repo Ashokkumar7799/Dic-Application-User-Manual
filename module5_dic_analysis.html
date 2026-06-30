@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -37,14 +37,16 @@
     <a class="sub" href="#analysis-mode">Analysis Mode</a>
     <a class="sub" href="#subset-size">Subset Size</a>
     <a class="sub" href="#grid-step">Grid Step</a>
+    <a class="sub" href="#strain-calculation">Strain Calculation</a>
     <a href="#run-analysis">5.2 Run Analysis</a>
     <a href="#canvas">5.3 Right Panel — Canvas</a>
     <a class="sub" href="#post-viz">Visualization Controls</a>
+    <a class="sub" href="#overlays">Overlays</a>
     <a href="#results">5.4 Results &amp; Export</a>
     <a class="sub" href="#header-bar">Header Bar</a>
     <a class="sub" href="#field-selector">Field Selector</a>
     <a class="sub" href="#graph-panel">Graph Panel</a>
-    <a class="sub" href="#export">Exporting Data</a>
+    <a class="sub" href="#export">Exporting Data &amp; Structure</a>
   </nav>
 
   <main class="content">
@@ -117,6 +119,17 @@
       </tbody>
     </table></div>
 
+    <h3 id="strain-calculation">Strain Calculation</h3>
+    <p>Select the formulation used to compute spatial strains.</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Control</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>Engineering (ε = λ - 1)</td><td>Standard engineering strain based on the original undeformed length. Suitable for small deformations.</td></tr>
+        <tr><td>Green-Lagrange (E)</td><td>A finite strain measure that is invariant to rigid body rotations. Highly recommended for large deformations and rotations.</td></tr>
+        <tr><td>True Strain (ln)</td><td>Logarithmic strain formulation (ε = ln(λ)). Useful for large plastic deformations often used in materials testing.</td></tr>
+      </tbody>
+    </table></div>
+
     <!-- 5.2 Run Analysis -->
     <h2 id="run-analysis">5.2 &nbsp; Run Analysis Controls</h2>
     <div class="tbl-wrap"><table>
@@ -162,6 +175,16 @@
       </tbody>
     </table></div>
 
+    <h3 id="overlays">Overlays</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Control</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>Show Point IDs (toggle)</td><td>Displays the unique integer ID number on top of each tracked point in the visualization canvas.</td></tr>
+        <tr><td>Scale Bar (toggle)</td><td>Shows or hides the calibrated physical scale bar in the corner of the exported images.</td></tr>
+        <tr><td>Frame Number (toggle)</td><td>Overlays the current frame number (e.g., "Frame 45") directly onto the image.</td></tr>
+      </tbody>
+    </table></div>
+
     <!-- 5.4 Results -->
     <h2 id="results">5.4 &nbsp; Results &amp; Data Export</h2>
     <p>The Results view is accessed by clicking the <strong>Results</strong> button (or it appears automatically after analysis). It shows interactive graphs of the computed fields over time and provides export functionality.</p>
@@ -193,7 +216,17 @@
         <tr><td>SHEAR_XY</td><td>Shear strain component — Gamma_XY</td><td>%</td></tr>
         <tr><td>STRAIN_MAJOR</td><td>Maximum (first) principal strain at each point</td><td>%</td></tr>
         <tr><td>STRAIN_MINOR</td><td>Minimum (second) principal strain at each point</td><td>%</td></tr>
-        <tr><td>Export Full Data to CSV (green, bottom)</td><td>Exports the complete result dataset (all fields, all frames, all tracked points) to a CSV file.</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3 id="export-options">Export Buttons</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Button</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>📥 Export CSV</td><td>Exports strain and displacement data. In <strong>Full Field</strong> mode, all tracked points are exported. In <strong>Point Mode</strong>, only the currently selected points are exported. The format is automatically chosen: <strong>Excel (.xlsx)</strong> for datasets with ≤16,000 points, or <strong>multiple CSV files</strong> for larger datasets.</td></tr>
+        <tr><td>📹 Export Visualizations</td><td>Saves every frame as an individual <strong>PNG image</strong> with the heatmap overlay applied, plus a combined <strong>MP4 video</strong> of all frames. Overlays (scale bar, frame number) are burned into the exported images based on your current toggle settings.</td></tr>
+        <tr><td>📈 Export All Graphs</td><td>Exports the time-series line plots (U, V, Strain X, Strain Y, Major Strain, Minor Strain) as individual <strong>PNG images</strong> into a selected folder.</td></tr>
+        <tr><td>🔄 Back to DIC Analysis</td><td>Returns to the main DIC Configuration and canvas view.</td></tr>
       </tbody>
     </table></div>
 
@@ -205,26 +238,62 @@
       <li><strong>Zoom and pan</strong> — click and drag on the graph to zoom into a region. Right-click or use the toolbar to reset the zoom.</li>
     </ul>
 
-    <div class="note">The graph sampling (max 500 display points) does not affect the exported CSV. The CSV always contains every tracked point from every analyzed frame. Use the CSV for rigorous data analysis in external tools (Excel, MATLAB, Python, etc.).</div>
+    <div class="note">The graph sampling (max 500 display points) does not affect the exported data. The export always contains every tracked point from every analyzed frame. Use the exported files for rigorous data analysis in external tools (Excel, MATLAB, Python, etc.).</div>
 
-    <h3 id="export">Exporting Data</h3>
-    <div class="procedure">
-      <div class="proc-step"><p>Click <strong>Export Full Data to CSV</strong> (green button, bottom of the left panel).</p></div>
-      <div class="proc-step"><p>A Windows file save dialog opens. Choose a destination folder and enter a filename (e.g., <code>Test_01_DIC_Results.csv</code>).</p></div>
-      <div class="proc-step"><p>Click <strong>Save</strong>. The application writes the CSV file. A confirmation message confirms successful export.</p></div>
-    </div>
-    <p>The exported CSV file includes the following columns for each data row:</p>
+    <h3 id="export">Exporting Data &amp; File Formats</h3>
+
+    <h4>Export CSV — Data Format</h4>
+    <p>The <strong>Export CSV</strong> button creates a multi-sheet file. Each measurement metric gets its own sheet (or its own CSV file for large datasets). Within each sheet, the data is <strong>pivoted</strong>: rows are <em>Frames</em>, and columns are individual <em>Points</em>. Three summary columns (<code>Average</code>, <code>Min</code>, <code>Max</code>) are appended to each sheet.</p>
+
+    <p><strong>Sheets created (in order):</strong></p>
     <div class="tbl-wrap"><table>
-      <thead><tr><th>Column</th><th>Description</th></tr></thead>
+      <thead><tr><th>Sheet / File Name</th><th>Contents</th></tr></thead>
       <tbody>
-        <tr><td>Point_ID</td><td>Unique integer identifier for each tracked subset point</td></tr>
-        <tr><td>Frame</td><td>Frame number (0 = reference, 1 = first deformed, etc.)</td></tr>
-        <tr><td>X_ref, Y_ref</td><td>Position of the tracking point in the reference image (pixels)</td></tr>
-        <tr><td>Disp_X, Disp_Y</td><td>Computed displacement in X and Y (mm or px)</td></tr>
-        <tr><td>Strain_XX, Strain_YY, Strain_XY</td><td>Normal and shear strain components (%)</td></tr>
-        <tr><td>Major_Strain, Minor_Strain</td><td>Principal strains (%)</td></tr>
+        <tr><td>U</td><td>Horizontal displacement (X-direction) per point per frame</td></tr>
+        <tr><td>V</td><td>Vertical displacement (Y-direction) per point per frame</td></tr>
+        <tr><td>Strain_X [%]</td><td>Normal strain in X per point per frame</td></tr>
+        <tr><td>Strain_Y [%]</td><td>Normal strain in Y per point per frame</td></tr>
+        <tr><td>Major_Strain [%]</td><td>Maximum principal strain per point per frame</td></tr>
+        <tr><td>Minor_Strain [%]</td><td>Minimum principal strain per point per frame</td></tr>
+        <tr><td>Point_Position</td><td>Reference X and Y coordinates for each point (2 rows: X, Y)</td></tr>
+        <tr><td>Magnitude</td><td>Total displacement magnitude per point per frame</td></tr>
       </tbody>
     </table></div>
+
+    <p><strong>Sheet layout example</strong> (e.g., sheet <code>Strain_X [%]</code>):</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Frame</th><th>Point_0</th><th>Point_1</th><th>Point_2</th><th>…</th><th>Average</th><th>Min</th><th>Max</th></tr></thead>
+      <tbody>
+        <tr><td>0</td><td>0.012</td><td>0.015</td><td>0.009</td><td>…</td><td>0.012</td><td>0.009</td><td>0.015</td></tr>
+        <tr><td>1</td><td>0.034</td><td>0.041</td><td>0.028</td><td>…</td><td>0.034</td><td>0.028</td><td>0.041</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="note">For datasets with <strong>more than 16,000 tracked points</strong>, the application automatically switches to <strong>multiple CSV files</strong> instead of a single Excel workbook (Excel row/column limits). Each metric is saved as a separate CSV file named <code>dic_results_U.csv</code>, <code>dic_results_Strain_X_pct.csv</code>, etc. A <code>_summary.txt</code> file with displacement and strain statistics is also generated alongside the data.</div>
+
+    <h4>Export Visualizations — Folder Structure</h4>
+    <p>When you click <strong>Export Visualizations</strong>, you select an output folder. The application creates the following structure:</p>
+    <div class="code-block" style="background:#2d2d2d; color:#ccc; padding:10px; border-radius:4px; font-family:Consolas,monospace; margin-bottom:15px; font-size:13px;">
+      [Selected Folder]/<br>
+      &nbsp;&nbsp;├── Strain_X_pct_frames/<br>
+      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── frame_0000.png<br>
+      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── frame_0001.png<br>
+      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└── … (one PNG per analyzed frame)<br>
+      &nbsp;&nbsp;└── Strain_X_pct_visualization.mp4<br>
+    </div>
+    <p>The folder and video names reflect the currently selected strain field (e.g., <code>Major_Strain_pct_frames/</code>). Each exported PNG includes the heatmap overlay, colorbar, and any enabled overlays (scale bar, frame number text).</p>
+
+    <h4>Export All Graphs — Output</h4>
+    <p>Exports each time-series graph type as a separate PNG image into your chosen folder:</p>
+    <div class="code-block" style="background:#2d2d2d; color:#ccc; padding:10px; border-radius:4px; font-family:Consolas,monospace; margin-bottom:15px; font-size:13px;">
+      [Selected Folder]/<br>
+      &nbsp;&nbsp;├── Graph_Displacement_X.png<br>
+      &nbsp;&nbsp;├── Graph_Displacement_Y.png<br>
+      &nbsp;&nbsp;├── Graph_Strain_X.png<br>
+      &nbsp;&nbsp;├── Graph_Strain_Y.png<br>
+      &nbsp;&nbsp;├── Graph_Major_Strain.png<br>
+      &nbsp;&nbsp;└── Graph_Minor_Strain.png<br>
+    </div>
 
     <div class="page-nav">
       <a href="module4_pattern_validation.html" class="prev">Pattern Validation</a>
